@@ -223,7 +223,7 @@ def add_youtube_video(
             video_id = part.split("&")[0].split("?")[0]
             break
 
-    thumbnail_url = f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg" if video_id else None
+    thumbnail_url = f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg" if video_id else None
 
     media_record = Media(
         project_id=project_id,
@@ -241,6 +241,33 @@ def add_youtube_video(
         public_id=video_id or youtube_url,
         resource_type="video",
     )
+
+
+@router.post("/backfill-thumbnails", status_code=200)
+def backfill_thumbnails(
+    db: Session = Depends(get_db),
+    _: bool = Depends(require_admin),
+):
+    """Backfill YouTube thumbnails for any video records missing them."""
+    videos = db.query(Media).filter(
+        Media.media_type == "video",
+        Media.thumbnail_url == None,  # noqa: E711
+    ).all()
+
+    updated = 0
+    for media in videos:
+        video_id = None
+        for pattern in ["v=", "youtu.be/", "embed/"]:
+            if pattern in (media.url or ""):
+                part = media.url.split(pattern)[-1]
+                video_id = part.split("&")[0].split("?")[0]
+                break
+        if video_id:
+            media.thumbnail_url = f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg"
+            updated += 1
+
+    db.commit()
+    return {"updated": updated, "total_scanned": len(videos)}
 
 
 # ─────────────────────────────────────────────────────────────────────────────

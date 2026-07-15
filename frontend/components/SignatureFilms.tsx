@@ -75,9 +75,12 @@ function FilmCard({ slot, index }: { slot: FilmSlot; index: number }) {
 
   const thumbnailSrc = m?.thumbnail_url || (
     m?.url && isYouTube(m.url) && getYouTubeId(m.url)
-      ? `https://img.youtube.com/vi/${getYouTubeId(m.url)}/hqdefault.jpg`
+      ? `https://img.youtube.com/vi/${getYouTubeId(m.url)}/maxresdefault.jpg`
       : null
   );
+  const thumbnailFallback = m?.url && isYouTube(m.url) && getYouTubeId(m.url)
+    ? `https://img.youtube.com/vi/${getYouTubeId(m.url)}/hqdefault.jpg`
+    : undefined;
 
   return (
     <>
@@ -99,6 +102,7 @@ function FilmCard({ slot, index }: { slot: FilmSlot; index: number }) {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={thumbnailSrc} alt={m.alt_text ?? ""}
                 draggable={false}
+                onError={e => { if (thumbnailFallback) (e.target as HTMLImageElement).src = thumbnailFallback; }}
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${hovered ? "opacity-70" : "opacity-100"}`} />
             )}
             {/* Play overlay */}
