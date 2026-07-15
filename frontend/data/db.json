@@ -1,91 +1,248 @@
 {
   "projects": [
     {
-      "id": "2b0dfae1-22a2-4461-a751-7094141745cb",
-      "title": "Fragments of Light",
-      "description": "A short film exploring solitude through the lens of urban architecture.",
-      "client_name": "Independent",
-      "release_date": null,
-      "is_featured": true,
-      "display_order": 1,
-      "created_at": "2026-07-14 19:01:37.989182",
-      "updated_at": "2026-07-14 19:01:37.989185",
-      "media": [
-        {
-          "id": "03d688d8-3efe-485f-9b91-7ebeeaf6eae2",
-          "project_id": "2b0dfae1-22a2-4461-a751-7094141745cb",
-          "media_type": "video",
-          "url": "https://res.cloudinary.com/demo/video/upload/dog.mp4",
-          "thumbnail_url": "https://res.cloudinary.com/demo/video/upload/dog.jpg",
-          "alt_text": "Fragments of Light \u2014 main film",
-          "display_order": 1,
-          "created_at": "2026-07-14 19:01:37.991794"
-        },
-        {
-          "id": "18301bea-3207-4b44-bd39-54e372cdeeda",
-          "project_id": "2b0dfae1-22a2-4461-a751-7094141745cb",
-          "media_type": "photo",
-          "url": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1200",
-          "thumbnail_url": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=600",
-          "alt_text": "Behind the scenes still",
-          "display_order": 2,
-          "created_at": "2026-07-14 19:01:37.991803"
-        }
-      ]
-    },
-    {
-      "id": "35675756-baf4-466d-ac08-86f7cda05ac1",
-      "title": "Golden Hour Sessions",
-      "description": "Portrait photography series shot during the golden hour across Bengaluru.",
-      "client_name": "Self",
-      "release_date": null,
-      "is_featured": true,
-      "display_order": 2,
-      "created_at": "2026-07-14 19:01:37.990149",
-      "updated_at": "2026-07-14 19:01:37.990151",
-      "media": [
-        {
-          "id": "e6b6544b-cc16-46e6-bb9c-9031b1156ad9",
-          "project_id": "35675756-baf4-466d-ac08-86f7cda05ac1",
-          "media_type": "photo",
-          "url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1200",
-          "thumbnail_url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600",
-          "alt_text": "Portrait \u2014 golden hour",
-          "display_order": 1,
-          "created_at": "2026-07-14 19:01:37.993349"
-        },
-        {
-          "id": "f515e6d2-4782-4f47-bfff-9cbcf778d274",
-          "project_id": "35675756-baf4-466d-ac08-86f7cda05ac1",
-          "media_type": "photo",
-          "url": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1200",
-          "thumbnail_url": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600",
-          "alt_text": "Portrait \u2014 silhouette",
-          "display_order": 2,
-          "created_at": "2026-07-14 19:01:37.993370"
-        }
-      ]
-    },
-    {
-      "id": "e0d7a4e5-5bbe-4300-bef4-655c02c01d30",
-      "title": "Neon Drift",
-      "description": "Cinematic reel shot at night \u2014 neon lights, rain, and motion.",
-      "client_name": "Brand Campaign",
+      "id": "406bc809-9693-43a3-8df0-de64f69d665f",
+      "title": "Captures",
+      "description": null,
+      "client_name": null,
       "release_date": null,
       "is_featured": false,
-      "display_order": 3,
-      "created_at": "2026-07-14 19:01:37.993045",
-      "updated_at": "2026-07-14 19:01:37.993048",
+      "display_order": 0,
+      "created_at": "2026-07-15T14:10:12.697Z",
+      "updated_at": "2026-07-15T14:10:12.697Z",
       "media": [
         {
-          "id": "a750fcb1-ae19-4374-b734-5a66fffa61f5",
-          "project_id": "e0d7a4e5-5bbe-4300-bef4-655c02c01d30",
-          "media_type": "video",
-          "url": "https://res.cloudinary.com/demo/video/upload/cld-sample.mp4",
-          "thumbnail_url": "https://res.cloudinary.com/demo/image/upload/cld-sample.jpg",
-          "alt_text": "Neon Drift \u2014 campaign reel",
+          "id": "6ef72483-8a10-469f-8ea7-545115b229a3",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/0a769a73062b4b5594ee820b0b395303.JPG",
+          "thumbnail_url": "/uploads/0a769a73062b4b5594ee820b0b395303.JPG",
+          "alt_text": "AVMH",
+          "display_order": 0,
+          "created_at": "2026-07-15T14:10:47.008Z"
+        },
+        {
+          "id": "d94390bf-8023-495f-8c9b-4242f1b83a74",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/c4981497487e47dc9b8fdc425e6f547a.jpg",
+          "thumbnail_url": "/uploads/c4981497487e47dc9b8fdc425e6f547a.jpg",
+          "alt_text": "AVMH",
           "display_order": 1,
-          "created_at": "2026-07-14 19:01:37.994288"
+          "created_at": "2026-07-15T14:10:58.890Z"
+        },
+        {
+          "id": "6d508c05-d306-478f-840e-3d2e6e5be684",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/f73ce9d5aec842ba888e10bf21eba445.jpg",
+          "thumbnail_url": "/uploads/f73ce9d5aec842ba888e10bf21eba445.jpg",
+          "alt_text": "AVMH",
+          "display_order": 2,
+          "created_at": "2026-07-15T14:11:05.961Z"
+        },
+        {
+          "id": "c48f971b-8b2c-423f-b070-63ce50788f6b",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/b19906d846184d1798615595171499d5.jpg",
+          "thumbnail_url": "/uploads/b19906d846184d1798615595171499d5.jpg",
+          "alt_text": "AVMH",
+          "display_order": 3,
+          "created_at": "2026-07-15T14:11:11.496Z"
+        },
+        {
+          "id": "2c6a93a0-8157-419f-868f-8c605142521c",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/7554abc92f6b4597b05b82b68676ec64.jpg",
+          "thumbnail_url": "/uploads/7554abc92f6b4597b05b82b68676ec64.jpg",
+          "alt_text": "AVMH",
+          "display_order": 4,
+          "created_at": "2026-07-15T14:11:23.003Z"
+        },
+        {
+          "id": "e2b284f8-4d7e-41c9-a331-fedf5d6c92c0",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/f621bc116d234db18ae39564ed0e99e5.jpg",
+          "thumbnail_url": "/uploads/f621bc116d234db18ae39564ed0e99e5.jpg",
+          "alt_text": "AVMH",
+          "display_order": 5,
+          "created_at": "2026-07-15T14:11:33.979Z"
+        },
+        {
+          "id": "7c68a529-3ac1-4b2e-83c3-1ac703ebd771",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/c72208f9fbc0474ca4e57d1e91c1fa6a.jpg",
+          "thumbnail_url": "/uploads/c72208f9fbc0474ca4e57d1e91c1fa6a.jpg",
+          "alt_text": "AVMH",
+          "display_order": 6,
+          "created_at": "2026-07-15T14:11:42.946Z"
+        },
+        {
+          "id": "5896c7b3-a555-4c2f-a079-89fe1d89d1ae",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/8b1391e74716406bafc75dbf489cc6ad.jpg",
+          "thumbnail_url": "/uploads/8b1391e74716406bafc75dbf489cc6ad.jpg",
+          "alt_text": "AVMH",
+          "display_order": 7,
+          "created_at": "2026-07-15T14:11:52.061Z"
+        },
+        {
+          "id": "4d3d8b78-75df-42d1-931b-a9ec39b2931e",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/ff453d1069464980a39612eb108ceb98.jpg",
+          "thumbnail_url": "/uploads/ff453d1069464980a39612eb108ceb98.jpg",
+          "alt_text": "AVMH",
+          "display_order": 9,
+          "created_at": "2026-07-15T14:12:05.442Z"
+        },
+        {
+          "id": "9f42ae39-df9b-47fe-b70e-71ec7793109e",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/d0c5ed5215754340a765c5f38f2fa969.jpg",
+          "thumbnail_url": "/uploads/d0c5ed5215754340a765c5f38f2fa969.jpg",
+          "alt_text": "AVMH",
+          "display_order": 10,
+          "created_at": "2026-07-15T14:12:12.292Z"
+        },
+        {
+          "id": "a72cd751-eff2-49b3-af41-2b693ac53f9e",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/5460f23959e34b1783f302a4be41da90.jpg",
+          "thumbnail_url": "/uploads/5460f23959e34b1783f302a4be41da90.jpg",
+          "alt_text": "AVMH",
+          "display_order": 11,
+          "created_at": "2026-07-15T14:12:22.802Z"
+        },
+        {
+          "id": "c3e547e0-6fa7-4e1b-a7df-d4d382943f02",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/af823fb296a64b60af04e62a97deae18.jpg",
+          "thumbnail_url": "/uploads/af823fb296a64b60af04e62a97deae18.jpg",
+          "alt_text": "AVMH",
+          "display_order": 12,
+          "created_at": "2026-07-15T14:12:35.151Z"
+        },
+        {
+          "id": "0dddaa22-a9ca-4879-b4b5-8425ec543308",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/c594db0ca37c4e538d3d72458b1b9db3.jpg",
+          "thumbnail_url": "/uploads/c594db0ca37c4e538d3d72458b1b9db3.jpg",
+          "alt_text": "AVMH",
+          "display_order": 13,
+          "created_at": "2026-07-15T14:12:41.428Z"
+        },
+        {
+          "id": "0081d753-a298-4d98-8c02-47b0193ac05b",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/b23bf1e2a42c4046a847db0c089013ad.jpg",
+          "thumbnail_url": "/uploads/b23bf1e2a42c4046a847db0c089013ad.jpg",
+          "alt_text": "AVMH",
+          "display_order": 14,
+          "created_at": "2026-07-15T14:13:08.602Z"
+        },
+        {
+          "id": "17c21b3b-d1cd-4b9b-9123-74dade6f3463",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/6f56462225c045aab6d66668f1dd1351.jpg",
+          "thumbnail_url": "/uploads/6f56462225c045aab6d66668f1dd1351.jpg",
+          "alt_text": "AVMH",
+          "display_order": 14,
+          "created_at": "2026-07-15T14:14:12.831Z"
+        },
+        {
+          "id": "f5e193e1-2693-4710-abc3-3c98e1088ddd",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/68a75f88bda54047bd613355351af2af.jpg",
+          "thumbnail_url": "/uploads/68a75f88bda54047bd613355351af2af.jpg",
+          "alt_text": "AVMH",
+          "display_order": 15,
+          "created_at": "2026-07-15T14:14:26.492Z"
+        },
+        {
+          "id": "94cd6022-fad2-43d9-bc06-c80a56ba89d2",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/8fdfdba103f745c991bf2833921374f7.jpg",
+          "thumbnail_url": "/uploads/8fdfdba103f745c991bf2833921374f7.jpg",
+          "alt_text": "AVMH",
+          "display_order": 16,
+          "created_at": "2026-07-15T14:14:34.847Z"
+        },
+        {
+          "id": "f56a658b-6cbd-448d-bb3a-859153c76dd5",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/aa52e7ee870641d5a2da62f9bdd35722.jpg",
+          "thumbnail_url": "/uploads/aa52e7ee870641d5a2da62f9bdd35722.jpg",
+          "alt_text": "AVMH",
+          "display_order": 17,
+          "created_at": "2026-07-15T14:14:41.652Z"
+        },
+        {
+          "id": "b8f63455-ea2e-44f0-b186-bf89a0ad2229",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/b7e4d46c14e24de9aa50d74e4a6484db.jpg",
+          "thumbnail_url": "/uploads/b7e4d46c14e24de9aa50d74e4a6484db.jpg",
+          "alt_text": "AVMH",
+          "display_order": 18,
+          "created_at": "2026-07-15T14:15:03.066Z"
+        },
+        {
+          "id": "f8243a81-33af-4ada-864a-69c9a216b3b4",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/7853aec3c68d4318a4f96283258c64ff.jpg",
+          "thumbnail_url": "/uploads/7853aec3c68d4318a4f96283258c64ff.jpg",
+          "alt_text": "AVMH",
+          "display_order": 19,
+          "created_at": "2026-07-15T14:15:12.905Z"
+        },
+        {
+          "id": "7e7576b9-e27b-4dad-a998-694354d66519",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "photo",
+          "url": "/uploads/20f75f70c74c474bb80e6ac1cf55a6a3.jpg",
+          "thumbnail_url": "/uploads/20f75f70c74c474bb80e6ac1cf55a6a3.jpg",
+          "alt_text": "AVMH",
+          "display_order": 20,
+          "created_at": "2026-07-15T14:15:27.783Z"
+        }
+      ]
+    },
+    {
+      "id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+      "title": "videos",
+      "description": null,
+      "client_name": null,
+      "release_date": null,
+      "is_featured": false,
+      "display_order": 0,
+      "created_at": "2026-07-15T14:10:23.851Z",
+      "updated_at": "2026-07-15T14:10:23.851Z",
+      "media": [
+        {
+          "id": "de76b058-775e-4934-ba69-609d6889e746",
+          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+          "media_type": "video",
+          "url": "https://www.youtube.com/watch?v=LhpZJwUboeI",
+          "thumbnail_url": "https://img.youtube.com/vi/LhpZJwUboeI/maxresdefault.jpg",
+          "alt_text": "CHECK ONE",
+          "display_order": 0,
+          "created_at": "2026-07-15T14:17:23.448Z"
         }
       ]
     }
