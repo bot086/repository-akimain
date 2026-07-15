@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Project, getAllProjects, resolveMediaUrl, Portrait } from "@/lib/api";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_HOST 
+  ? `https://${process.env.NEXT_PUBLIC_API_HOST}` 
+  : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 async function authFetch(url: string, options: RequestInit, secret: string) {

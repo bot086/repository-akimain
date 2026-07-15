@@ -37,8 +37,8 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
-      - key: NEXT_PUBLIC_API_URL
+      - key: NEXT_PUBLIC_API_HOST
         fromService:
           type: web
           name: akkira-backend
-          property: url
+          property: host

@@ -1,6 +1,8 @@
 // lib/api.ts — All fetch helpers for the FastAPI backend.
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API = process.env.NEXT_PUBLIC_API_HOST 
+  ? `https://${process.env.NEXT_PUBLIC_API_HOST}` 
+  : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
 
 export { API };
 
