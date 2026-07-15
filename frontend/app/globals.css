@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@300;400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Root & Base ─────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Butter-smooth momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    background-color: #F7F3EC;
+  }
+
+  body {
+    background-color: #F7F3EC;
+    color: #1C1916;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent content shift from scrollbar */
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: #C4952A;
+    color: #FAF8F4;
+  }
+
+  /* Refined gold scrollbar */
+  ::-webkit-scrollbar       { width: 3px; }
+  ::-webkit-scrollbar-track { background: #F2EDE3; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #E8C97A, #C4952A); border-radius: 2px; }
+
+  h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+}
+
+/* ── Component Utilities ─────────────────────────────────────────────────── */
+@layer utilities {
+
+  /* Gold gradient text */
+  .text-gold-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #E8C97A 0%, #C4952A 45%, #A07830 100%);
+  }
+
+  /* Animated shimmer on text */
+  .text-gold-shimmer {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #C4952A, #F0D080, #C4952A, #E8C97A, #C4952A);
+    background-size: 300% 100%;
+    animation: goldShimmer 4s ease-in-out infinite;
+  }
+
+  /* Subtle gold drop shadow for headings */
+  .shadow-gold {
+    text-shadow: 0 2px 40px rgba(196, 149, 42, 0.25);
+  }
+
+  /* Gold border with soft glow */
+  .border-gold-soft {
+    border: 1px solid rgba(196, 149, 42, 0.3);
+    box-shadow: 0 0 20px rgba(196, 149, 42, 0.08);
+  }
+
+  /* Cream card */
+  .card-cream {
+    background: rgba(255, 251, 244, 0.8);
+    border: 1px solid rgba(196, 149, 42, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Section padding */
+  .section-pad {
+    @apply py-24 md:py-36 px-6 md:px-12 lg:px-24;
+  }
+
+  /* Gold horizontal rule */
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #C4952A 30%, #E8C97A 50%, #C4952A 70%, transparent);
+  }
+
+  /* Parallax wrapper — must have overflow:hidden parent */
+  .will-parallax {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  /* Theater: full-screen overlay dark */
+  .theater-backdrop {
+    background: rgba(14, 12, 10, 0.96);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+}
