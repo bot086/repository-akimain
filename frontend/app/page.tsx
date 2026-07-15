@@ -10,9 +10,9 @@ const DEFAULT_STATS = { total_views: 10_000_000, total_subscribers: 5_000_000, t
 const DEFAULT_CONTACT = {
   whatsapp_number: "918660976964",
   whatsapp_url: "https://wa.me/918660976964",
-  email: "akshay@youremail.com",
-  instagram_handle: "@akshay.vastrad",
-  instagram_url: "https://instagram.com/akshay.vastrad",
+  email: "akshayvastradmedia@gmail.com",
+  instagram_handle: "@akkira.weddings",
+  instagram_url: "https://instagram.com/akkira.weddings",
 };
 
 export default async function HomePage() {
