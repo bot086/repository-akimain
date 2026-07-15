@@ -1,7 +1,6 @@
 "use client";
 // components/HomeClient.tsx — AK2.0
-// Full page composition: Hero → Brand Statement → Signature Films →
-//   Stats Bar → Service Pillars → Photo Gallery → Contact
+// Full page composition. FilmReel appears ABOVE and BELOW the gallery.
 
 import type { Project, Stats, ContactInfo } from "@/lib/api";
 import HeroSection from "./HeroSection";
@@ -10,6 +9,7 @@ import SignatureFilms from "./SignatureFilms";
 import StatsBar from "./StatsBar";
 import ServicePillars from "./ServicePillars";
 import MasonryGrid from "./MasonryGrid";
+import FilmReel from "./FilmReel";
 import ContactSection from "./ContactSection";
 
 interface Props {
@@ -22,25 +22,31 @@ interface Props {
 export default function HomeClient({ allProjects, contact }: Props) {
   return (
     <main className="bg-cream min-h-screen">
-      {/* 1. Luxury hero — name + portrait collage */}
+      {/* 1. Hero — name + role tags + portrait collage */}
       <HeroSection />
 
-      {/* 2. Cinematic brand statement pull-quote */}
+      {/* 2. Brand statement */}
       <BrandStatement />
 
-      {/* 3. 8 signature wedding films — editorial board */}
+      {/* 3. 10 Signature Films */}
       <SignatureFilms />
 
-      {/* 4. Animated stats — 40+ / 4 Years / 100% */}
+      {/* 4. Animated stats */}
       <StatsBar />
 
-      {/* 5. Three service pillars — Quality · Service · Commitment */}
+      {/* 5. Service Pillars */}
       <ServicePillars />
 
-      {/* 6. 30-photo masonry archive with lightbox */}
+      {/* 6a. Film Reel — ABOVE gallery */}
+      <FilmReel projects={allProjects} />
+
+      {/* 6b. Photo Gallery — masonry with lightbox */}
       <MasonryGrid projects={allProjects} />
 
-      {/* 7. Contact — WhatsApp · Email · Instagram */}
+      {/* 6c. Film Reel — BELOW gallery */}
+      <FilmReel projects={allProjects} />
+
+      {/* 7. Contact */}
       <ContactSection contact={contact} />
     </main>
   );

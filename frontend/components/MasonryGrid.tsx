@@ -1,9 +1,9 @@
 "use client";
 // components/MasonryGrid.tsx — AK2.0
-// Pinterest-style masonry for up to 30 photos.
-// Features: lazy loading, arrow-key lightbox navigation, load more button.
+// Pinterest masonry for up to 30 photos — 12 shown initially, load more button.
+// Arrow-key navigable lightbox. FilmReel is a separate component below this section.
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Project, MediaItem } from "@/lib/api";
 
