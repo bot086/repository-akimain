@@ -1,12 +1,15 @@
 "use client";
-// components/HomeClient.tsx
-// Main page shell — assembles all sections. No loading screen.
+// components/HomeClient.tsx — AK2.0
+// Full page composition: Hero → Brand Statement → Signature Films →
+//   Stats Bar → Service Pillars → Photo Gallery → Contact
 
 import type { Project, Stats, ContactInfo } from "@/lib/api";
 import HeroSection from "./HeroSection";
-import EditorialSpotlight from "./EditorialSpotlight";
+import BrandStatement from "./BrandStatement";
+import SignatureFilms from "./SignatureFilms";
+import StatsBar from "./StatsBar";
+import ServicePillars from "./ServicePillars";
 import MasonryGrid from "./MasonryGrid";
-import ProjectList from "./ProjectList";
 import ContactSection from "./ContactSection";
 
 interface Props {
@@ -16,22 +19,28 @@ interface Props {
   contact: ContactInfo;
 }
 
-export default function HomeClient({ featured, allProjects, contact }: Props) {
+export default function HomeClient({ allProjects, contact }: Props) {
   return (
     <main className="bg-cream min-h-screen">
-      {/* 1. Luxury cream hero */}
+      {/* 1. Luxury hero — name + portrait collage */}
       <HeroSection />
 
-      {/* 2. Full-screen parallax editorial spotlight (featured projects) */}
-      <EditorialSpotlight projects={featured} />
+      {/* 2. Cinematic brand statement pull-quote */}
+      <BrandStatement />
 
-      {/* 3. Masonry grid — all project media */}
+      {/* 3. 8 signature wedding films — editorial board */}
+      <SignatureFilms />
+
+      {/* 4. Animated stats — 40+ / 4 Years / 100% */}
+      <StatsBar />
+
+      {/* 5. Three service pillars — Quality · Service · Commitment */}
+      <ServicePillars />
+
+      {/* 6. 30-photo masonry archive with lightbox */}
       <MasonryGrid projects={allProjects} />
 
-      {/* 4. Project accordion index */}
-      <ProjectList projects={allProjects} />
-
-      {/* 5. Contact footer */}
+      {/* 7. Contact — WhatsApp · Email · Instagram */}
       <ContactSection contact={contact} />
     </main>
   );

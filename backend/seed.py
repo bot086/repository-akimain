@@ -39,9 +39,9 @@ def seed_contact():
         id=1,
         # ─── UPDATE THESE before going live ───────────────────────────────
         whatsapp_number="918660976964",          # Akshay's number ✅
-        whatsapp_greeting="Hi+Akshay%2C+I+saw+your+portfolio+and+would+love+to+collaborate%21",
-        email="akshay@youremail.com",            # ← fill in
-        instagram_handle="@akshay.vastrad",      # ← fill in
+        whatsapp_greeting="Hi+Akshay%2C+I+saw+your+portfolio+and+would+love+to+book+a+consultation%21",
+        email="Akshayvastradmedia@gmail.com",      # ✅ from catalogue
+        instagram_handle="@Akshay_bsa_official",  # ✅ from catalogue
         # ──────────────────────────────────────────────────────────────────
     )
     db.add(contact)
