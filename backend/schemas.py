@@ -32,6 +32,11 @@ class MediaCreate(MediaBase):
     project_id: str
 
 
+class MediaUpdate(BaseModel):
+    alt_text: Optional[str] = None
+    display_order: Optional[int] = None
+
+
 class MediaOut(MediaBase):
     id: str
     project_id: str

@@ -122,6 +122,17 @@ function ProjectsTab({ projects, secret, onRefresh }: { projects: Project[]; sec
     onRefresh();
   };
 
+  const editMedia = async (mediaId: string, currentAlt: string | null) => {
+    const newAlt = window.prompt("Enter new caption/alt text:", currentAlt || "");
+    if (newAlt === null) return; // User cancelled
+    await authFetch(`${API}/api/v1/admin/media/${mediaId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ alt_text: newAlt }),
+    }, secret);
+    onRefresh();
+  };
+
   return (
     <div className="space-y-6">
       <form onSubmit={create} className="flex gap-3">
@@ -155,11 +166,12 @@ function ProjectsTab({ projects, secret, onRefresh }: { projects: Project[]; sec
                   <div key={m.id} className="relative group/media aspect-square rounded-md overflow-hidden bg-cream border border-ink/10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={resolveMediaUrl(m.thumbnail_url || m.url)} alt={m.alt_text ?? ""} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/media:opacity-100 transition flex items-center justify-center">
-                      <button onClick={() => deleteMedia(m.id)} className="bg-red-500 text-white text-[10px] px-2 py-1 rounded">Delete</button>
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/media:opacity-100 transition flex flex-col items-center justify-center gap-2">
+                      <button onClick={() => editMedia(m.id, m.alt_text)} className="bg-gold text-ink text-[10px] px-3 py-1 rounded font-medium">Edit</button>
+                      <button onClick={() => deleteMedia(m.id)} className="bg-red-500 text-white text-[10px] px-3 py-1 rounded font-medium">Delete</button>
                     </div>
                     {m.alt_text && (
-                      <div className="absolute bottom-0 inset-x-0 bg-black/60 px-1 py-0.5 text-[8px] text-white/90 truncate">
+                      <div className="absolute bottom-0 inset-x-0 bg-black/60 px-1 py-0.5 text-[8px] text-white/90 truncate text-center">
                         {m.alt_text}
                       </div>
                     )}
@@ -169,6 +181,7 @@ function ProjectsTab({ projects, secret, onRefresh }: { projects: Project[]; sec
             )}
           </div>
         ))}
+
         {projects.length === 0 && (
           <p className="text-center text-sm text-ink/40 py-10 border border-dashed border-ink/15 rounded-xl">No projects yet. Create one above!</p>
         )}

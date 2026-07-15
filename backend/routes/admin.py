@@ -29,6 +29,7 @@ from schemas import (
     ContactUpdate,
     MediaCreate,
     MediaOut,
+    MediaUpdate,
     PortraitOut,
     ProjectCreate,
     ProjectOut,
@@ -139,6 +140,24 @@ def delete_media(
     db.delete(media)
     db.commit()
 
+
+@router.put("/media/{media_id}", response_model=MediaOut)
+def update_media(
+    media_id: str,
+    body: MediaUpdate,
+    db: Session = Depends(get_db),
+    _: bool = Depends(require_admin),
+):
+    media = db.query(Media).filter(Media.id == media_id).first()
+    if not media:
+        raise HTTPException(status_code=404, detail="Media not found")
+    
+    for field, value in body.model_dump(exclude_unset=True).items():
+        setattr(media, field, value)
+        
+    db.commit()
+    db.refresh(media)
+    return media
 
 
 # ─────────────────────────────────────────────────────────────────────────────
