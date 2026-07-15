@@ -33,7 +33,7 @@ export default function FilmReel({ projects: initialProjects = [] }: Props) {
 
   // Always re-fetch on mount so newly uploaded photos show up
   useEffect(() => {
-    getAllProjects().then(setProjects).catch(() => {});
+    getAllProjects().then(setProjects).catch(() => { });
   }, []);
 
   // Collect real photos or fall back to placeholders
@@ -42,7 +42,7 @@ export default function FilmReel({ projects: initialProjects = [] }: Props) {
       .filter(m => m.media_type === "photo")
       .map(m => ({ id: m.id, url: m.url, alt: m.alt_text ?? p.title }))
   );
-  const frames: Frame[] = realPhotos.length >= 8 ? realPhotos : PLACEHOLDER_FRAMES;
+  const frames: Frame[] = realPhotos.length >= 1 ? realPhotos : PLACEHOLDER_FRAMES;
 
   // Triple the frames for seamless infinite loop
   const tripled = [...frames, ...frames, ...frames];
@@ -91,7 +91,7 @@ export default function FilmReel({ projects: initialProjects = [] }: Props) {
 
     animRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animRef.current);
-  }, [frames.length, TOTAL_ONE_SET]);
+  }, [frames.length, TOTAL_ONE_SET, realPhotos.length]);
 
   return (
     <div className="relative w-full overflow-hidden select-none"
@@ -195,7 +195,7 @@ export default function FilmReel({ projects: initialProjects = [] }: Props) {
       <div className="absolute bottom-7 right-5 pointer-events-none">
         <span className="font-mono text-[8px] tracking-[0.4em] uppercase"
           style={{ color: "rgba(196,149,42,0.4)" }}>
-          AKSHAY VASTRAD · 35MM
+          AKSHAY VASTRAD
         </span>
       </div>
     </div>
