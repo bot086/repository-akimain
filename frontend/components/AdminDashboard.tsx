@@ -116,6 +116,12 @@ function ProjectsTab({ projects, secret, onRefresh }: { projects: Project[]; sec
     onRefresh();
   };
 
+  const deleteMedia = async (mediaId: string) => {
+    if (!confirm("Delete this media item?")) return;
+    await authFetch(`${API}/api/v1/admin/media/${mediaId}`, { method: "DELETE" }, secret);
+    onRefresh();
+  };
+
   return (
     <div className="space-y-6">
       <form onSubmit={create} className="flex gap-3">
@@ -130,16 +136,37 @@ function ProjectsTab({ projects, secret, onRefresh }: { projects: Project[]; sec
         </button>
       </form>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {projects.map(p => (
-          <div key={p.id} className="flex justify-between items-center bg-white/70 p-4 rounded-xl border border-ink/5 group hover:border-gold/30 transition">
-            <div>
-              <div className="font-semibold">{p.title}</div>
-              <div className="text-xs text-ink/50 mt-0.5">{p.media?.length || 0} media · ID: {p.id.slice(0, 8)}…</div>
+          <div key={p.id} className="bg-white/70 p-5 rounded-xl border border-ink/5 group hover:border-gold/30 transition shadow-sm">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <div className="font-bold text-lg">{p.title}</div>
+                <div className="text-xs text-ink/50 mt-1">{p.media?.length || 0} media items · ID: {p.id.slice(0, 8)}…</div>
+              </div>
+              <button onClick={() => deleteProject(p.id)} className="text-xs text-red-500 px-3 py-1.5 rounded-lg hover:bg-red-50 font-medium">
+                Delete Project
+              </button>
             </div>
-            <button onClick={() => deleteProject(p.id)} className="text-xs text-red-500 opacity-0 group-hover:opacity-100 transition px-2 py-1 rounded hover:bg-red-50">
-              Delete
-            </button>
+            
+            {p.media && p.media.length > 0 && (
+              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 mt-4 pt-4 border-t border-ink/5">
+                {p.media.map(m => (
+                  <div key={m.id} className="relative group/media aspect-square rounded-md overflow-hidden bg-cream border border-ink/10">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={resolveMediaUrl(m.thumbnail_url || m.url)} alt={m.alt_text ?? ""} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/media:opacity-100 transition flex items-center justify-center">
+                      <button onClick={() => deleteMedia(m.id)} className="bg-red-500 text-white text-[10px] px-2 py-1 rounded">Delete</button>
+                    </div>
+                    {m.alt_text && (
+                      <div className="absolute bottom-0 inset-x-0 bg-black/60 px-1 py-0.5 text-[8px] text-white/90 truncate">
+                        {m.alt_text}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
         {projects.length === 0 && (

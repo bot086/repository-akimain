@@ -110,8 +110,35 @@ def delete_project(
     project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
+    # Also delete associated local files
+    for media in project.media:
+        if media.media_type == "photo" and media.url.startswith("/uploads/"):
+            file_path = os.path.join(UPLOAD_DIR, media.url.replace("/uploads/", ""))
+            if os.path.exists(file_path):
+                os.remove(file_path)
     db.delete(project)
     db.commit()
+
+
+@router.delete("/media/{media_id}", status_code=204)
+def delete_media(
+    media_id: str,
+    db: Session = Depends(get_db),
+    _: bool = Depends(require_admin),
+):
+    media = db.query(Media).filter(Media.id == media_id).first()
+    if not media:
+        raise HTTPException(status_code=404, detail="Media not found")
+    
+    # Delete the file from disk if it's a local upload
+    if media.media_type == "photo" and media.url.startswith("/uploads/"):
+        file_path = os.path.join(UPLOAD_DIR, media.url.replace("/uploads/", ""))
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            
+    db.delete(media)
+    db.commit()
+
 
 
 # ─────────────────────────────────────────────────────────────────────────────
