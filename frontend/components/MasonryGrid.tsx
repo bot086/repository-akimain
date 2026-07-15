@@ -142,9 +142,11 @@ function PhotoCard({
 
       {/* Gold border glow */}
       <div className="absolute inset-0 pointer-events-none transition-all duration-400 rounded-[2px]"
-        style={{ boxShadow: hovered
-          ? "inset 0 0 0 1.5px rgba(196,149,42,0.65)"
-          : "inset 0 0 0 0px transparent" }} />
+        style={{
+          boxShadow: hovered
+            ? "inset 0 0 0 1.5px rgba(196,149,42,0.65)"
+            : "inset 0 0 0 0px transparent"
+        }} />
 
       {/* Caption */}
       <div className={`absolute bottom-0 inset-x-0 px-3 pb-3 transition-all duration-350 ${hovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"}`}>
@@ -217,12 +219,12 @@ export default function MasonryGrid({ projects }: Props) {
 
           {hasRealMedia
             ? visiblePhotos.map((item, i) => (
-                <PhotoCard key={item.id} item={item} index={i}
-                  onClick={() => setLightboxIndex(i)} />
-              ))
+              <PhotoCard key={item.id} item={item} index={i}
+                onClick={() => setLightboxIndex(i)} />
+            ))
             : visiblePlaceholders.map((ph, i) => (
-                <PlaceholderCard key={ph.id} label={ph.label} index={i} />
-              ))
+              <PlaceholderCard key={ph.id} label={ph.label} index={i} />
+            ))
           }
         </div>
 

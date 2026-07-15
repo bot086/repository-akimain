@@ -37,9 +37,6 @@ export default function HomeClient({ allProjects, contact }: Props) {
       {/* 5. Service Pillars */}
       <ServicePillars />
 
-      {/* 6a. Film Reel — ABOVE gallery */}
-      <FilmReel projects={allProjects} />
-
       {/* 6b. Photo Gallery — masonry with lightbox */}
       <MasonryGrid projects={allProjects} />
 

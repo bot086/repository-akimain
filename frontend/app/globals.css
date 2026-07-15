@@ -6,7 +6,10 @@
 
 /* ── Root & Base ─────────────────────────────────────────────────────────── */
 @layer base {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -36,11 +39,23 @@
   }
 
   /* Refined gold scrollbar */
-  ::-webkit-scrollbar       { width: 3px; }
-  ::-webkit-scrollbar-track { background: #F2EDE3; }
-  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #E8C97A, #C4952A); border-radius: 2px; }
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
 
-  h1, h2, h3, h4 {
+  ::-webkit-scrollbar-track {
+    background: #F2EDE3;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #E8C97A, #C4952A);
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -78,7 +93,7 @@
 
   /* Cream card */
   .card-cream {
-    background: rgba(255, 251, 244, 0.8);
+    background: rgba(236, 151, 3, 0.8);
     border: 1px solid rgba(196, 149, 42, 0.15);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);

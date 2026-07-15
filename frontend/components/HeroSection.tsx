@@ -4,18 +4,19 @@
 
 import { motion } from "framer-motion";
 
-function PhotoSlot({ label, className, delay }: { label: string; className?: string; delay: number }) {
+function PhotoSlot({ label, delay }: { label: string; delay: number }) {
   return (
     <motion.div
-      className={`relative overflow-hidden rounded-[2px] border border-gold/25 group ${className}`}
+      className="relative overflow-hidden rounded-[30px] border border-gold/25 group w-full flex-shrink-0"
+      style={{ aspectRatio: "9/16" }}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ scale: 1.012 }}
     >
-      <div className="w-full h-full bg-gradient-to-br from-cream-warm via-gold-pale to-[#EDE6D5] flex flex-col items-center justify-center gap-2 p-4">
-        <span className="text-xl opacity-25">📷</span>
-        <span className="font-mono text-[8px] tracking-[0.28em] text-gold-muted uppercase text-center opacity-50 leading-relaxed">
+      <div className="absolute inset-0 bg-gradient-to-br from-cream-warm via-gold-pale to-[#EDE6D5] flex flex-col items-center justify-center gap-3 p-4">
+        <span className="text-3xl opacity-30">📷</span>
+        <span className="font-mono text-[8px] tracking-[0.28em] text-gold-muted uppercase text-center opacity-60 leading-relaxed">
           {label}
         </span>
       </div>
@@ -62,7 +63,7 @@ export default function HeroSection() {
       </motion.div>
 
       {/* ── Main 2-column body ── */}
-      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_480px] gap-0 px-8 md:px-14 pt-10 pb-12">
+      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-0 px-8 md:px-14 pt-10 pb-12">
 
         {/* ── LEFT: Name block + roles + CTA ── */}
         <div className="flex flex-col justify-center pr-0 lg:pr-12">
@@ -147,36 +148,41 @@ export default function HeroSection() {
           </motion.a>
         </div>
 
-        {/* ── RIGHT: Portrait collage ── */}
-        <div className="hidden md:flex items-center justify-end">
-          <div className="w-full max-w-sm lg:max-w-none">
+        {/* ── RIGHT: Portrait reels — 1 col × 3 rows @ true 9:16 ── */}
+        <div className="hidden md:flex flex-col items-end justify-between pb-0 pt-2">
 
-            {/* Portrait grid */}
-            <div className="grid grid-cols-2 gap-3 h-[460px] lg:h-[540px]">
-              <PhotoSlot label="Portrait of Akshay" className="h-full" delay={0.9} />
-              <div className="flex flex-col gap-3 h-full">
-                <PhotoSlot label="With Camera" className="flex-1" delay={1.05} />
-                <PhotoSlot label="Behind the Scenes" className="flex-1" delay={1.2} />
-              </div>
+          {/* Reel column: fixed width so 9:16 slots stack at natural height */}
+          <div
+            className="flex flex-col gap-1.5 overflow-hidden"
+            style={{ width: "clamp(90px, 8.5vw, 115px)", maxHeight: "calc(100vh - 200px)" }}
+          >
+            <PhotoSlot label="Portrait of Akshay" delay={0.9} />
+            <PhotoSlot label="With Camera" delay={1.05} />
+            <PhotoSlot label="Behind the Scenes" delay={1.2} />
+          </div>
+
+          {/* Credential badges: wide bar that extends left toward the name */}
+          <div
+            className="flex gap-2 self-end"
+            style={{
+              width: "clamp(340px, 38vw, 480px)",
+              marginBottom: "4px",
+            }}
+          >
+            <div className="flex-1 px-4 py-3 text-center border border-gold/20 rounded-[2px] backdrop-blur-sm"
+              style={{ background: "rgba(255,251,244,0.88)" }}>
+              <p className="font-mono text-[9px] tracking-widest text-gold uppercase mb-1">Experience</p>
+              <p className="font-serif text-2xl text-ink leading-none">4 <span className="text-sm font-sans font-light text-ink-muted">Yrs</span></p>
             </div>
-
-            {/* Credential badges */}
-            <div className="flex justify-between gap-3 mt-3">
-              <div className="flex-1 px-4 py-3 text-center border border-gold/20 rounded-[2px]"
-                style={{ background: "rgba(255,251,244,0.7)" }}>
-                <p className="font-mono text-[8px] tracking-widest text-gold uppercase mb-0.5">Experience</p>
-                <p className="font-serif text-xl text-ink">4 <span className="text-xs font-sans font-light text-ink-muted">Years</span></p>
-              </div>
-              <div className="flex-1 px-4 py-3 text-center border border-gold/20 rounded-[2px]"
-                style={{ background: "rgba(255,251,244,0.7)" }}>
-                <p className="font-mono text-[8px] tracking-widest text-gold uppercase mb-0.5">Clients</p>
-                <p className="font-serif text-xl text-ink">40+</p>
-              </div>
-              <div className="flex-1 px-4 py-3 text-center border border-gold/20 rounded-[2px]"
-                style={{ background: "rgba(255,251,244,0.7)" }}>
-                <p className="font-mono text-[8px] tracking-widest text-gold uppercase mb-0.5">Commitment</p>
-                <p className="font-serif text-xl text-ink">100<span className="text-xs font-sans font-light text-ink-muted">%</span></p>
-              </div>
+            <div className="flex-1 px-4 py-3 text-center border border-gold/20 rounded-[2px] backdrop-blur-sm"
+              style={{ background: "rgba(255,251,244,0.88)" }}>
+              <p className="font-mono text-[9px] tracking-widest text-gold uppercase mb-1">Clients</p>
+              <p className="font-serif text-2xl text-ink leading-none">40+</p>
+            </div>
+            <div className="flex-1 px-4 py-3 text-center border border-gold/20 rounded-[2px] backdrop-blur-sm"
+              style={{ background: "rgba(255,251,244,0.88)" }}>
+              <p className="font-mono text-[9px] tracking-widest text-gold uppercase mb-1">Commitment</p>
+              <p className="font-serif text-2xl text-ink leading-none">100<span className="text-sm font-sans font-light text-ink-muted">%</span></p>
             </div>
           </div>
         </div>
