@@ -6,7 +6,7 @@ from datetime import date, datetime
 from typing import Optional
 from enum import Enum
 
-from pydantic import BaseModel, HttpUrl, field_validator
+from pydantic import BaseModel
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -35,6 +35,19 @@ class MediaCreate(MediaBase):
 class MediaOut(MediaBase):
     id: str
     project_id: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Portrait Schemas
+# ─────────────────────────────────────────────────────────────────────────────
+class PortraitOut(BaseModel):
+    id: str
+    url: str
+    alt_text: Optional[str] = None
+    display_order: int = 0
     created_at: datetime
 
     model_config = {"from_attributes": True}

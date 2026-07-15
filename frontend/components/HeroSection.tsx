@@ -3,8 +3,10 @@
 // Clean 2-column grid. Name stacks tight. More gold. Role tags below name.
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { getPortraits, resolveMediaUrl, type Portrait } from "@/lib/api";
 
-function PhotoSlot({ label, delay }: { label: string; delay: number }) {
+function PhotoSlot({ portrait, label, delay }: { portrait?: Portrait; label: string; delay: number }) {
   return (
     <motion.div
       className="relative overflow-hidden rounded-[30px] border border-gold/25 group w-full flex-shrink-0"
@@ -14,12 +16,21 @@ function PhotoSlot({ label, delay }: { label: string; delay: number }) {
       transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ scale: 1.012 }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-cream-warm via-gold-pale to-[#EDE6D5] flex flex-col items-center justify-center gap-3 p-4">
-        <span className="text-3xl opacity-30">📷</span>
-        <span className="font-mono text-[8px] tracking-[0.28em] text-gold-muted uppercase text-center opacity-60 leading-relaxed">
-          {label}
-        </span>
-      </div>
+      {portrait ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={resolveMediaUrl(portrait.url)}
+          alt={portrait.alt_text ?? label}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-cream-warm via-gold-pale to-[#EDE6D5] flex flex-col items-center justify-center gap-3 p-4">
+          <span className="text-3xl opacity-30">📷</span>
+          <span className="font-mono text-[8px] tracking-[0.28em] text-gold-muted uppercase text-center opacity-60 leading-relaxed">
+            {label}
+          </span>
+        </div>
+      )}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{ boxShadow: "inset 0 0 0 1.5px rgba(196,149,42,0.55), 0 8px 32px rgba(196,149,42,0.12)" }} />
     </motion.div>
@@ -28,7 +39,15 @@ function PhotoSlot({ label, delay }: { label: string; delay: number }) {
 
 const ROLES = ["Filmmaker", "Media House", "Editor", "Cinematographer", "Director"];
 
+const PORTRAIT_LABELS = ["Portrait of Akshay", "With Camera", "Behind the Scenes"];
+
 export default function HeroSection() {
+  const [portraits, setPortraits] = useState<Portrait[]>([]);
+
+  useEffect(() => {
+    getPortraits().then(setPortraits).catch(() => { });
+  }, []);
+
   return (
     <section className="relative w-full min-h-screen flex flex-col overflow-hidden"
       style={{ background: "linear-gradient(155deg, #F9F6F0 0%, #F3EDE0 50%, #EDE6D5 100%)" }}>
@@ -156,9 +175,9 @@ export default function HeroSection() {
             className="flex flex-col gap-1.5 overflow-hidden"
             style={{ width: "clamp(90px, 8.5vw, 115px)", maxHeight: "calc(100vh - 200px)" }}
           >
-            <PhotoSlot label="Portrait of Akshay" delay={0.9} />
-            <PhotoSlot label="With Camera" delay={1.05} />
-            <PhotoSlot label="Behind the Scenes" delay={1.2} />
+            <PhotoSlot portrait={portraits[0]} label={PORTRAIT_LABELS[0]} delay={0.9} />
+            <PhotoSlot portrait={portraits[1]} label={PORTRAIT_LABELS[1]} delay={1.05} />
+            <PhotoSlot portrait={portraits[2]} label={PORTRAIT_LABELS[2]} delay={1.2} />
           </div>
 
           {/* Credential badges: wide bar that extends left toward the name */}

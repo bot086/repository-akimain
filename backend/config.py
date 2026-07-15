@@ -14,10 +14,8 @@ class Settings(BaseSettings):
     # Database
     database_url: str = "sqlite:///./akkira.db"
 
-    # Cloudinary
-    cloudinary_cloud_name: str = "otq6aed4"
-    cloudinary_api_key: str = "369144445387345"
-    cloudinary_api_secret: str = "7CZoFXyexGnTqXTgGaZicVDS9jU"
+    # Upload directory (use /data/uploads on Render persistent disk)
+    upload_dir: str = ""
 
     # Contact Details — update these in .env
     whatsapp_number: str = "918660976964"
@@ -26,7 +24,7 @@ class Settings(BaseSettings):
     instagram_handle: str = "@akira_weddings"
 
     # CORS
-    allowed_origins: str = "http://localhost:3000"
+    allowed_origins: str = "http://localhost:3000,http://localhost:3001"
 
     @property
     def allowed_origins_list(self) -> list[str]:

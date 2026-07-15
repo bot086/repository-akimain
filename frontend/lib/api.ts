@@ -2,12 +2,21 @@
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+export { API };
+
 export interface MediaItem {
   id: string;
   project_id: string;
   media_type: "video" | "photo";
   url: string;
   thumbnail_url: string | null;
+  alt_text: string | null;
+  display_order: number;
+}
+
+export interface Portrait {
+  id: string;
+  url: string;
   alt_text: string | null;
   display_order: number;
 }
@@ -59,3 +68,16 @@ export const getStats = () =>
 
 export const getContactInfo = () =>
   fetcher<ContactInfo>("/contact");
+
+export const getPortraits = () =>
+  fetcher<Portrait[]>("/portraits");
+
+/**
+ * Converts a relative /uploads/... URL from the backend into a full URL
+ * so it can be used in <img> tags on the frontend.
+ */
+export function resolveMediaUrl(url: string): string {
+  if (!url) return "";
+  if (url.startsWith("http")) return url;
+  return `${API}${url}`;
+}

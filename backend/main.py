@@ -1,17 +1,25 @@
 """
 main.py — FastAPI application entry point.
 Mounts all routers, configures CORS, and creates DB tables on startup.
+Serves uploaded files as static assets from /uploads.
 """
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from config import get_settings
 from database import Base, engine
 from routes import admin, contact, projects, stats
+from routes.portraits import router as portraits_router
 
 settings = get_settings()
+
+# Ensure the uploads directory exists
+UPLOAD_DIR = os.environ.get("UPLOAD_DIR", os.path.join(os.path.dirname(__file__), "uploads"))
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -50,6 +58,11 @@ app.add_middleware(
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Static files — serve uploaded photos/portraits directly
+# ─────────────────────────────────────────────────────────────────────────────
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Routers
 # ─────────────────────────────────────────────────────────────────────────────
 API_PREFIX = "/api/v1"
@@ -58,6 +71,7 @@ app.include_router(projects.router, prefix=API_PREFIX)
 app.include_router(stats.router, prefix=API_PREFIX)
 app.include_router(contact.router, prefix=API_PREFIX)
 app.include_router(admin.router, prefix=API_PREFIX)
+app.include_router(portraits_router, prefix=API_PREFIX)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

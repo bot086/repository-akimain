@@ -1,16 +1,19 @@
 """
 routes/admin.py — Protected admin endpoints.
-Covers: project CRUD, media upload (Cloudinary), stats update, contact update.
+Covers: project CRUD, local file upload (photos), YouTube URL (videos),
+        portrait upload, stats update, contact update.
 
 Authentication: simple Bearer token (the SECRET_KEY from .env).
-In production, replace with proper JWT/OAuth.
 """
-import cloudinary
-import cloudinary.uploader
+import os
+import shutil
+import uuid
+
 from fastapi import (
     APIRouter,
     Depends,
     File,
+    Form,
     HTTPException,
     Security,
     UploadFile,
@@ -21,11 +24,12 @@ from sqlalchemy.orm import Session
 
 from config import get_settings
 from database import get_db
-from models import ContactInfo, Media, Project, Stats
+from models import ContactInfo, Media, Portrait, Project, Stats
 from schemas import (
     ContactUpdate,
     MediaCreate,
     MediaOut,
+    PortraitOut,
     ProjectCreate,
     ProjectOut,
     ProjectUpdate,
@@ -36,6 +40,12 @@ from schemas import (
 router = APIRouter(prefix="/admin", tags=["Admin"])
 bearer = HTTPBearer()
 settings = get_settings()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Upload directory — use /data/uploads on Render (persistent disk), else local
+# ─────────────────────────────────────────────────────────────────────────────
+UPLOAD_DIR = os.environ.get("UPLOAD_DIR", os.path.join(os.path.dirname(__file__), "..", "uploads"))
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -48,6 +58,14 @@ def require_admin(credentials: HTTPAuthorizationCredentials = Security(bearer)):
             detail="Invalid admin token",
         )
     return True
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Token Verify — used by the frontend admin login to validate the secret key
+# ─────────────────────────────────────────────────────────────────────────────
+@router.get("/verify")
+def verify_token(_: bool = Depends(require_admin)):
+    return {"ok": True}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -97,67 +115,131 @@ def delete_project(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Media Upload (Cloudinary)
+# Photo Upload — saves file locally, no Cloudinary
 # ─────────────────────────────────────────────────────────────────────────────
-def _configure_cloudinary():
-    cloudinary.config(
-        cloud_name=settings.cloudinary_cloud_name,
-        api_key=settings.cloudinary_api_key,
-        api_secret=settings.cloudinary_api_secret,
-        secure=True,
-    )
-
-
-@router.post("/upload", response_model=UploadOut, status_code=201)
-async def upload_media(
-    project_id: str,
-    media_type: str = "photo",
+@router.post("/upload/photo", response_model=UploadOut, status_code=201)
+async def upload_photo(
+    project_id: str = Form(...),
+    alt_text: str = Form(""),
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
     _: bool = Depends(require_admin),
 ):
-    """
-    Upload a photo or video to Cloudinary and create a Media record.
-    Automatically generates a thumbnail for videos.
-    """
-    _configure_cloudinary()
-
+    """Upload a photo. Saved to the local uploads directory, served as a static file."""
     project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    resource_type = "video" if media_type == "video" else "image"
-    contents = await file.read()
+    # Generate a unique filename preserving the original extension
+    ext = os.path.splitext(file.filename or "photo.jpg")[1].lower() or ".jpg"
+    filename = f"{uuid.uuid4().hex}{ext}"
+    file_path = os.path.join(UPLOAD_DIR, filename)
 
-    result = cloudinary.uploader.upload(
-        contents,
-        folder=f"akkira/{project_id}",
-        resource_type=resource_type,
-        eager=[{"width": 600, "crop": "scale"}] if media_type == "video" else [],
-    )
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
 
-    url = result["secure_url"]
-    thumb_url = (
-        result["eager"][0]["secure_url"]
-        if media_type == "video" and result.get("eager")
-        else result.get("secure_url")
-    )
+    url = f"/uploads/{filename}"
 
     media_record = Media(
         project_id=project_id,
-        media_type=media_type,
+        media_type="photo",
         url=url,
-        thumbnail_url=thumb_url,
+        thumbnail_url=url,
+        alt_text=alt_text or None,
+    )
+    db.add(media_record)
+    db.commit()
+
+    return UploadOut(url=url, thumbnail_url=url, public_id=filename, resource_type="image")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# YouTube Video — saves URL directly, no file upload
+# ─────────────────────────────────────────────────────────────────────────────
+@router.post("/upload/video", response_model=UploadOut, status_code=201)
+def add_youtube_video(
+    project_id: str = Form(...),
+    youtube_url: str = Form(...),
+    alt_text: str = Form(""),
+    db: Session = Depends(get_db),
+    _: bool = Depends(require_admin),
+):
+    """Add a YouTube video link to a project. No file upload needed."""
+    project = db.query(Project).filter(Project.id == project_id).first()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    # Derive the YouTube video ID for the thumbnail
+    video_id = None
+    for pattern in ["v=", "youtu.be/", "embed/"]:
+        if pattern in youtube_url:
+            part = youtube_url.split(pattern)[-1]
+            video_id = part.split("&")[0].split("?")[0]
+            break
+
+    thumbnail_url = f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg" if video_id else None
+
+    media_record = Media(
+        project_id=project_id,
+        media_type="video",
+        url=youtube_url,
+        thumbnail_url=thumbnail_url,
+        alt_text=alt_text or None,
     )
     db.add(media_record)
     db.commit()
 
     return UploadOut(
-        url=url,
-        thumbnail_url=thumb_url,
-        public_id=result["public_id"],
-        resource_type=resource_type,
+        url=youtube_url,
+        thumbnail_url=thumbnail_url,
+        public_id=video_id or youtube_url,
+        resource_type="video",
     )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Portrait Upload — for the Hero section (saved locally)
+# ─────────────────────────────────────────────────────────────────────────────
+@router.post("/portraits", response_model=PortraitOut, status_code=201)
+async def upload_portrait(
+    alt_text: str = Form(""),
+    display_order: int = Form(0),
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    _: bool = Depends(require_admin),
+):
+    """Upload a portrait photo for the Hero section."""
+    ext = os.path.splitext(file.filename or "portrait.jpg")[1].lower() or ".jpg"
+    filename = f"portrait_{uuid.uuid4().hex}{ext}"
+    file_path = os.path.join(UPLOAD_DIR, filename)
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    url = f"/uploads/{filename}"
+    portrait = Portrait(url=url, alt_text=alt_text or None, display_order=display_order)
+    db.add(portrait)
+    db.commit()
+    db.refresh(portrait)
+    return portrait
+
+
+@router.delete("/portraits/{portrait_id}", status_code=204)
+def delete_portrait(
+    portrait_id: str,
+    db: Session = Depends(get_db),
+    _: bool = Depends(require_admin),
+):
+    portrait = db.query(Portrait).filter(Portrait.id == portrait_id).first()
+    if not portrait:
+        raise HTTPException(status_code=404, detail="Portrait not found")
+    # Remove file from disk
+    filename = portrait.url.lstrip("/uploads/")
+    file_path = os.path.join(UPLOAD_DIR, filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    db.delete(portrait)
+    db.commit()
 
 
 # ─────────────────────────────────────────────────────────────────────────────

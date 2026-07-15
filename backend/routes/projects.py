@@ -11,9 +11,9 @@ from schemas import ProjectOut, ProjectListOut, ProjectCreate, ProjectUpdate
 router = APIRouter(prefix="/projects", tags=["Projects"])
 
 
-@router.get("", response_model=list[ProjectListOut])
+@router.get("", response_model=list[ProjectOut])
 def list_projects(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
-    """Return all projects ordered by display_order, paginated."""
+    """Return all projects ordered by display_order, with full media list."""
     return (
         db.query(Project)
         .order_by(Project.display_order, Project.created_at.desc())

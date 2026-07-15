@@ -1,6 +1,6 @@
 """
 models.py — SQLAlchemy ORM models (SQLAlchemy 2.0 Mapped[] style).
-Tables: Project, Media, Stats, ContactInfo
+Tables: Project, Media, Portrait, Stats, ContactInfo
 """
 import uuid
 from datetime import date, datetime
@@ -76,7 +76,7 @@ class Media(Base):
         Enum(MediaType), nullable=False, default=MediaType.photo
     )
 
-    # Cloudinary / S3 URLs
+    # URL: local path for photos (e.g. /uploads/filename.jpg), YouTube URL for videos
     url: Mapped[str] = mapped_column(String(2048), nullable=False)
     thumbnail_url: Mapped[Optional[str]] = mapped_column(String(2048), nullable=True)
     alt_text: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
@@ -84,6 +84,19 @@ class Media(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     project: Mapped["Project"] = relationship("Project", back_populates="media")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Portrait — hero section portrait photos (uploaded separately)
+# ─────────────────────────────────────────────────────────────────────────────
+class Portrait(Base):
+    __tablename__ = "portraits"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    url: Mapped[str] = mapped_column(String(2048), nullable=False)
+    alt_text: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
+    display_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
 
 # ─────────────────────────────────────────────────────────────────────────────

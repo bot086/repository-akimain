@@ -8,6 +8,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Project, MediaItem } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/api";
 
 // 30 placeholder frames (replaced by real photos)
 const PLACEHOLDER_FRAMES = Array.from({ length: 30 }, (_, i) => ({
@@ -133,7 +134,7 @@ export default function FilmReel({ projects }: Props) {
             >
               {frame.url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={frame.url} alt={frame.alt} loading="lazy"
+                <img src={resolveMediaUrl(frame.url)} alt={frame.alt} loading="lazy"
                   className="w-full h-full object-cover"
                   draggable={false} />
               ) : (

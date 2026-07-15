@@ -6,6 +6,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Project, MediaItem } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/api";
 
 interface Props { projects: Project[] }
 
@@ -76,7 +77,7 @@ function Lightbox({
         onClick={e => e.stopPropagation()}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={item.url} alt={item.alt_text ?? ""} loading="lazy"
+        <img src={resolveMediaUrl(item.url)} alt={item.alt_text ?? ""} loading="lazy"
           className="max-h-[80vh] max-w-full mx-auto object-contain rounded-[2px]"
           style={{ boxShadow: "0 0 80px rgba(196,149,42,0.12), 0 40px 80px rgba(0,0,0,0.6)" }} />
         {item.alt_text && (
@@ -126,7 +127,7 @@ function PhotoCard({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={item.thumbnail_url || item.url}
+        src={resolveMediaUrl(item.thumbnail_url || item.url)}
         alt={item.alt_text ?? ""}
         loading="lazy"
         className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
