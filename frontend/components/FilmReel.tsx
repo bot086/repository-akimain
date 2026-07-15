@@ -8,7 +8,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Project, MediaItem } from "@/lib/api";
-import { resolveMediaUrl } from "@/lib/api";
+import { resolveMediaUrl, getAllProjects } from "@/lib/api";
 
 // 30 placeholder frames (replaced by real photos)
 const PLACEHOLDER_FRAMES = Array.from({ length: 30 }, (_, i) => ({
@@ -18,17 +18,23 @@ const PLACEHOLDER_FRAMES = Array.from({ length: 30 }, (_, i) => ({
 }));
 
 interface Props {
-  projects: Project[];
+  projects?: Project[];
 }
 
 type Frame = { id: string; url: string | null; alt: string };
 
-export default function FilmReel({ projects }: Props) {
+export default function FilmReel({ projects: initialProjects = [] }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
   const scrollX = useRef(0);
   const isPaused = useRef(false);
   const [ready, setReady] = useState(false);
+  const [projects, setProjects] = useState<Project[]>(initialProjects);
+
+  // Always re-fetch on mount so newly uploaded photos show up
+  useEffect(() => {
+    getAllProjects().then(setProjects).catch(() => {});
+  }, []);
 
   // Collect real photos or fall back to placeholders
   const realPhotos: Frame[] = projects.flatMap(p =>

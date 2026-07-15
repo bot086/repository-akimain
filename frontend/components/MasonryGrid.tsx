@@ -6,9 +6,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Project, MediaItem } from "@/lib/api";
-import { resolveMediaUrl } from "@/lib/api";
+import { resolveMediaUrl, getAllProjects } from "@/lib/api";
 
-interface Props { projects: Project[] }
+interface Props { projects?: Project[] }
 
 // ── 30 photo placeholder slots (replaced by real data from API) ───────────────
 const PHOTO_PLACEHOLDERS: Array<{ id: string; label: string }> = Array.from({ length: 30 }, (_, i) => ({
@@ -173,9 +173,15 @@ function PlaceholderCard({ label, index }: { label: string; index: number }) {
 // ── Main ──────────────────────────────────────────────────────────────────────
 const INITIAL_SHOW = 12;
 
-export default function MasonryGrid({ projects }: Props) {
+export default function MasonryGrid({ projects: initialProjects = [] }: Props) {
   const [showAll, setShowAll] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [projects, setProjects] = useState<Project[]>(initialProjects);
+
+  // Always re-fetch on mount so newly uploaded photos appear immediately
+  useEffect(() => {
+    getAllProjects().then(setProjects).catch(() => {});
+  }, []);
 
   const allMedia = projects.flatMap(p =>
     (p.media ?? [])
