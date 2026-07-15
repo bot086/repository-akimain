@@ -16,7 +16,10 @@ build/
 *.db
 *.sqlite3
 
-# Cloudinary
+# Uploaded media — lives on server disk, not in git
+backend/uploads/
+
+# Logs
 *.log
 
 # OS
