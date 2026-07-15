@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { getPortraits, resolveMediaUrl, type Portrait } from "@/lib/api";
 
 function PhotoSlot({ portrait, label, delay }: { portrait?: Portrait; label: string; delay: number }) {
+  if (!portrait) return null;
+
   return (
     <motion.div
       className="relative overflow-hidden rounded-[30px] border border-gold/25 group w-full flex-shrink-0"
@@ -23,14 +25,7 @@ function PhotoSlot({ portrait, label, delay }: { portrait?: Portrait; label: str
           alt={portrait.alt_text ?? label}
           className="absolute inset-0 w-full h-full object-cover"
         />
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-cream-warm via-gold-pale to-[#EDE6D5] flex flex-col items-center justify-center gap-3 p-4">
-          <span className="text-3xl opacity-30">📷</span>
-          <span className="font-mono text-[8px] tracking-[0.28em] text-gold-muted uppercase text-center opacity-60 leading-relaxed">
-            {label}
-          </span>
-        </div>
-      )}
+      ) : null}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{ boxShadow: "inset 0 0 0 1.5px rgba(196,149,42,0.55), 0 8px 32px rgba(196,149,42,0.12)" }} />
     </motion.div>
