@@ -18,7 +18,7 @@ build/
 *-shm
 *-wal
 
-# Uploaded media — lives on server disk, not in git
+# Backend uploaded media — NOT committed (lives on local disk only)
 backend/uploads/
 
 # Logs
@@ -32,8 +32,13 @@ Thumbs.db
 node_modules/
 .next/
 out/
-dist/
 
 # IDE
 .vscode/
 .idea/
+
+# Frontend public uploads ARE committed (compressed for Vercel CDN)
+# frontend/public/uploads/ — tracked intentionally
+
+# Frontend data (db.json) IS committed — it is the source of truth
+# frontend/data/ — tracked intentionally

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Project, getAllProjects, resolveMediaUrl, Portrait } from "@/lib/api";
+import { getAllProjects, resolveMediaUrl, Portrait } from "@/lib/api";
+import type { Project } from "@/lib/api";
 
-const API = process.env.NEXT_PUBLIC_API_HOST 
-  ? `https://${process.env.NEXT_PUBLIC_API_HOST}` 
-  : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
+// All API calls go to Next.js internal routes — same origin, no backend needed
+const API = "";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 async function authFetch(url: string, options: RequestInit, secret: string) {
@@ -46,7 +46,7 @@ export default function AdminDashboard({ secret, onLogout }: { secret: string; o
     try {
       const [p, por] = await Promise.all([
         getAllProjects(),
-        fetch(`${API}/api/v1/portraits`).then(r => r.json()),
+        fetch(`/api/portraits`).then(r => r.json()),
       ]);
       setProjects(p);
       setPortraits(por);
@@ -111,7 +111,7 @@ function ProjectsTab({ projects, secret, onRefresh }: { projects: Project[]; sec
     e.preventDefault();
     if (!title.trim()) return;
     setCreating(true);
-    await authFetch(`${API}/api/v1/admin/projects`, {
+    await authFetch(`${API}/api/admin/projects`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, display_order: 0 }),
@@ -123,20 +123,20 @@ function ProjectsTab({ projects, secret, onRefresh }: { projects: Project[]; sec
 
   const deleteProject = async (id: string) => {
     if (!confirm("Delete this project and all its media?")) return;
-    await authFetch(`${API}/api/v1/admin/projects/${id}`, { method: "DELETE" }, secret);
+    await authFetch(`${API}/api/admin/projects/${id}`, { method: "DELETE" }, secret);
     onRefresh();
   };
 
   const deleteMedia = async (mediaId: string) => {
     if (!confirm("Delete this media item?")) return;
-    await authFetch(`${API}/api/v1/admin/media/${mediaId}`, { method: "DELETE" }, secret);
+    await authFetch(`${API}/api/admin/media/${mediaId}`, { method: "DELETE" }, secret);
     onRefresh();
   };
 
   const editMedia = async (mediaId: string, currentAlt: string | null) => {
     const newAlt = window.prompt("Enter new caption/alt text:", currentAlt || "");
     if (newAlt === null) return;
-    await authFetch(`${API}/api/v1/admin/media/${mediaId}`, {
+    await authFetch(`${API}/api/admin/media/${mediaId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ alt_text: newAlt }),
@@ -213,7 +213,7 @@ function PhotosTab({ projects, secret, onRefresh }: { projects: Project[]; secre
     fd.append("file", file);
     fd.append("project_id", projectId);
     fd.append("alt_text", altText);
-    const res = await authFetch(`${API}/api/v1/admin/upload/photo`, { method: "POST", body: fd }, secret);
+    const res = await authFetch(`${API}/api/admin/upload/photo`, { method: "POST", body: fd }, secret);
     setUploading(false);
     if (res.ok) {
       alert("Photo uploaded!");
@@ -276,7 +276,7 @@ function VideosTab({ projects, secret, onRefresh }: { projects: Project[]; secre
     fd.append("project_id", projectId);
     fd.append("youtube_url", youtubeUrl);
     fd.append("alt_text", altText);
-    const res = await authFetch(`${API}/api/v1/admin/upload/video`, { method: "POST", body: fd }, secret);
+    const res = await authFetch(`${API}/api/admin/upload/video`, { method: "POST", body: fd }, secret);
     setSaving(false);
     if (res.ok) {
       alert("Video added!");
@@ -289,7 +289,7 @@ function VideosTab({ projects, secret, onRefresh }: { projects: Project[]; secre
 
   const deleteVideo = async (mediaId: string) => {
     if (!confirm("Remove this video?")) return;
-    await authFetch(`${API}/api/v1/admin/media/${mediaId}`, { method: "DELETE" }, secret);
+    await authFetch(`${API}/api/admin/media/${mediaId}`, { method: "DELETE" }, secret);
     onRefresh();
   };
 
@@ -424,7 +424,7 @@ function PortraitsTab({ portraits, secret, onRefresh }: { portraits: Portrait[];
     fd.append("file", file);
     fd.append("alt_text", altText);
     fd.append("display_order", String(order));
-    const res = await authFetch(`${API}/api/v1/admin/portraits`, { method: "POST", body: fd }, secret);
+    const res = await authFetch(`${API}/api/admin/portraits`, { method: "POST", body: fd }, secret);
     setUploading(false);
     if (res.ok) {
       alert("Portrait uploaded!");
@@ -439,7 +439,7 @@ function PortraitsTab({ portraits, secret, onRefresh }: { portraits: Portrait[];
 
   const deletePortrait = async (id: string) => {
     if (!confirm("Delete this portrait?")) return;
-    await authFetch(`${API}/api/v1/admin/portraits/${id}`, { method: "DELETE" }, secret);
+    await authFetch(`${API}/api/admin/portraits/${id}`, { method: "DELETE" }, secret);
     onRefresh();
   };
 

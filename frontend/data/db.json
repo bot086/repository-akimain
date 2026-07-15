@@ -1,0 +1,109 @@
+{
+  "projects": [
+    {
+      "id": "2b0dfae1-22a2-4461-a751-7094141745cb",
+      "title": "Fragments of Light",
+      "description": "A short film exploring solitude through the lens of urban architecture.",
+      "client_name": "Independent",
+      "release_date": null,
+      "is_featured": true,
+      "display_order": 1,
+      "created_at": "2026-07-14 19:01:37.989182",
+      "updated_at": "2026-07-14 19:01:37.989185",
+      "media": [
+        {
+          "id": "03d688d8-3efe-485f-9b91-7ebeeaf6eae2",
+          "project_id": "2b0dfae1-22a2-4461-a751-7094141745cb",
+          "media_type": "video",
+          "url": "https://res.cloudinary.com/demo/video/upload/dog.mp4",
+          "thumbnail_url": "https://res.cloudinary.com/demo/video/upload/dog.jpg",
+          "alt_text": "Fragments of Light \u2014 main film",
+          "display_order": 1,
+          "created_at": "2026-07-14 19:01:37.991794"
+        },
+        {
+          "id": "18301bea-3207-4b44-bd39-54e372cdeeda",
+          "project_id": "2b0dfae1-22a2-4461-a751-7094141745cb",
+          "media_type": "photo",
+          "url": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1200",
+          "thumbnail_url": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=600",
+          "alt_text": "Behind the scenes still",
+          "display_order": 2,
+          "created_at": "2026-07-14 19:01:37.991803"
+        }
+      ]
+    },
+    {
+      "id": "35675756-baf4-466d-ac08-86f7cda05ac1",
+      "title": "Golden Hour Sessions",
+      "description": "Portrait photography series shot during the golden hour across Bengaluru.",
+      "client_name": "Self",
+      "release_date": null,
+      "is_featured": true,
+      "display_order": 2,
+      "created_at": "2026-07-14 19:01:37.990149",
+      "updated_at": "2026-07-14 19:01:37.990151",
+      "media": [
+        {
+          "id": "e6b6544b-cc16-46e6-bb9c-9031b1156ad9",
+          "project_id": "35675756-baf4-466d-ac08-86f7cda05ac1",
+          "media_type": "photo",
+          "url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1200",
+          "thumbnail_url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600",
+          "alt_text": "Portrait \u2014 golden hour",
+          "display_order": 1,
+          "created_at": "2026-07-14 19:01:37.993349"
+        },
+        {
+          "id": "f515e6d2-4782-4f47-bfff-9cbcf778d274",
+          "project_id": "35675756-baf4-466d-ac08-86f7cda05ac1",
+          "media_type": "photo",
+          "url": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1200",
+          "thumbnail_url": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600",
+          "alt_text": "Portrait \u2014 silhouette",
+          "display_order": 2,
+          "created_at": "2026-07-14 19:01:37.993370"
+        }
+      ]
+    },
+    {
+      "id": "e0d7a4e5-5bbe-4300-bef4-655c02c01d30",
+      "title": "Neon Drift",
+      "description": "Cinematic reel shot at night \u2014 neon lights, rain, and motion.",
+      "client_name": "Brand Campaign",
+      "release_date": null,
+      "is_featured": false,
+      "display_order": 3,
+      "created_at": "2026-07-14 19:01:37.993045",
+      "updated_at": "2026-07-14 19:01:37.993048",
+      "media": [
+        {
+          "id": "a750fcb1-ae19-4374-b734-5a66fffa61f5",
+          "project_id": "e0d7a4e5-5bbe-4300-bef4-655c02c01d30",
+          "media_type": "video",
+          "url": "https://res.cloudinary.com/demo/video/upload/cld-sample.mp4",
+          "thumbnail_url": "https://res.cloudinary.com/demo/image/upload/cld-sample.jpg",
+          "alt_text": "Neon Drift \u2014 campaign reel",
+          "display_order": 1,
+          "created_at": "2026-07-14 19:01:37.994288"
+        }
+      ]
+    }
+  ],
+  "portraits": [],
+  "stats": {
+    "id": 1,
+    "total_views": 10000000,
+    "total_subscribers": 5000000,
+    "total_likes": 8000000,
+    "updated_at": "2026-07-14 19:01:37.982502"
+  },
+  "contact": {
+    "id": 1,
+    "whatsapp_number": "918660976964",
+    "whatsapp_greeting": "Hi+Akshay%2C+I+saw+your+portfolio+and+would+love+to+collaborate%21",
+    "email": "akshay@youremail.com",
+    "instagram_handle": "@akshay.vastrad",
+    "updated_at": "2026-07-14 19:01:37.985003"
+  }
+}

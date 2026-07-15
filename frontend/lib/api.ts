@@ -1,10 +1,9 @@
-// lib/api.ts — All fetch helpers for the FastAPI backend.
+// lib/api.ts — All fetch helpers, now using Next.js internal API routes.
+// In development: calls localhost:3000/api/...
+// In production (Vercel): same-origin /api/... — no separate backend needed!
 
-const API = process.env.NEXT_PUBLIC_API_HOST 
-  ? `https://${process.env.NEXT_PUBLIC_API_HOST}` 
-  : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
-
-export { API };
+// Empty string = relative URL (same origin). Works both locally and on Vercel.
+export const API = "";
 
 export interface MediaItem {
   id: string;
@@ -49,37 +48,28 @@ export interface ContactInfo {
 }
 
 async function fetcher<T>(path: string): Promise<T> {
-  const res = await fetch(`${API}/api/v1${path}`, {
-    next: { revalidate: 60 }, // ISR: revalidate every 60s
-  });
+  const base = typeof window === "undefined"
+    ? (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000")
+    : "";
+  const res = await fetch(`${base}${path}`, { cache: "no-store" });
   if (!res.ok) throw new Error(`API error: ${res.status} ${path}`);
   return res.json();
 }
 
-export const getFeaturedProjects = () =>
-  fetcher<Project[]>("/projects/featured");
-
-export const getAllProjects = () =>
-  fetcher<Project[]>("/projects");
-
-export const getProject = (id: string) =>
-  fetcher<Project>(`/projects/${id}`);
-
-export const getStats = () =>
-  fetcher<Stats>("/stats");
-
-export const getContactInfo = () =>
-  fetcher<ContactInfo>("/contact");
-
-export const getPortraits = () =>
-  fetcher<Portrait[]>("/portraits");
+export const getFeaturedProjects = () => fetcher<Project[]>("/api/projects/featured");
+export const getAllProjects      = () => fetcher<Project[]>("/api/projects");
+export const getProject         = (id: string) => fetcher<Project>(`/api/projects/${id}`);
+export const getStats           = () => fetcher<Stats>("/api/stats");
+export const getContactInfo     = () => fetcher<ContactInfo>("/api/contact");
+export const getPortraits       = () => fetcher<Portrait[]>("/api/portraits");
 
 /**
- * Converts a relative /uploads/... URL from the backend into a full URL
- * so it can be used in <img> tags on the frontend.
+ * Photos in /uploads/ are served as static assets by Next.js/Vercel CDN.
+ * YouTube thumbnails and external URLs pass through as-is.
  */
 export function resolveMediaUrl(url: string): string {
   if (!url) return "";
   if (url.startsWith("http")) return url;
-  return `${API}${url}`;
+  // /uploads/... is served from public/ folder — same origin
+  return url;
 }

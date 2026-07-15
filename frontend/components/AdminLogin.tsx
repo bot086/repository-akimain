@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 
-const API = process.env.NEXT_PUBLIC_API_HOST 
-  ? `https://${process.env.NEXT_PUBLIC_API_HOST}` 
-  : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
+const API = ""; // Same-origin — internal Next.js API routes
 
 export default function AdminLogin({ onLogin }: { onLogin: (secret: string) => void }) {
   const [secret, setSecret] = useState("");
@@ -20,7 +18,7 @@ export default function AdminLogin({ onLogin }: { onLogin: (secret: string) => v
 
     try {
       // Verify the key against a dedicated verify endpoint
-      const res = await fetch(`${API}/api/v1/admin/verify`, {
+      const res = await fetch(`${API}/api/admin/verify`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${secret.trim()}`,
