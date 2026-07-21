@@ -35,17 +35,17 @@ export default function HomeClient({ allProjects, contact }: Props) {
       {/* 4. Animated stats */}
       <StatsBar />
 
-      {/* 5. Service Pillars */}
-      <ServicePillars />
-
-      {/* 5b. Client Testimonials — scrolling marquee panel */}
-      <ClientTestimonials />
-
-      {/* 6b. Photo Gallery — masonry with lightbox */}
+      {/* 5. Photo Gallery — masonry with lightbox (moved up before Services) */}
       <MasonryGrid projects={allProjects} />
 
-      {/* 6c. Film Reel — BELOW gallery */}
+      {/* 5b. Film Reel scroll — horizontal video strip */}
       <FilmReel projects={allProjects} />
+
+      {/* 6. Service Pillars — Why Choose Us */}
+      <ServicePillars />
+
+      {/* 6b. Client Testimonials */}
+      <ClientTestimonials />
 
       {/* 7. Contact */}
       <ContactSection contact={contact} />

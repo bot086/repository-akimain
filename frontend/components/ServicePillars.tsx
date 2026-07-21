@@ -31,7 +31,7 @@ const PILLARS = [
 
 export default function ServicePillars() {
   return (
-    <section id="about" className="section-pad bg-cream-soft">
+    <section id="services" className="section-pad bg-cream-soft">
       {/* Header */}
       <div className="mb-16 max-w-5xl mx-auto">
         <div className="flex items-center gap-4 mb-3">

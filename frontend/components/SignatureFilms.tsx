@@ -385,7 +385,7 @@ export default function SignatureFilms() {
   const wfLabels = ["Wedding Film 01", "Wedding Film 02", "Wedding Film 03", "Wedding Film 04"];
 
   return (
-    <section id="work" className="section-pad bg-cream overflow-hidden">
+    <section id="films" className="section-pad bg-cream overflow-hidden">
       {/* Section header */}
       <div className="mb-10">
         <div className="flex items-center gap-4 mb-3">
