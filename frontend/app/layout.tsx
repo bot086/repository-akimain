@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import TempleVectors from "@/components/TempleVectors";
 
 export const metadata: Metadata = {
   title: "Akshay Vastrad — Filmmaker & Photographer",
@@ -22,6 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       </head>
       <body className="bg-cream text-ink font-sans">
+        {/* Decorative temple vector overlays — fixed, z-0, pointer-events-none */}
+        <TempleVectors />
         <Navbar />
         {children}
       </body>
