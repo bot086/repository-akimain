@@ -235,37 +235,59 @@
       "updated_at": "2026-07-15T14:10:23.851Z",
       "media": [
         {
-          "id": "de76b058-775e-4934-ba69-609d6889e746",
-          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
-          "media_type": "video",
-          "url": "https://www.youtube.com/watch?v=LhpZJwUboeI",
-          "thumbnail_url": "https://img.youtube.com/vi/LhpZJwUboeI/maxresdefault.jpg",
-          "alt_text": "wf_01",
-          "display_order": 0,
-          "created_at": "2026-07-15T14:17:23.448Z"
-        },
-        {
-          "id": "a2c5c497-d170-46b6-ac28-0e95a98e2513",
+          "id": "a0d727f8-d7d5-4464-ba21-210609caae73",
           "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
           "media_type": "video",
           "url": "https://youtu.be/bEubVKWYqrY",
           "thumbnail_url": "https://img.youtube.com/vi/bEubVKWYqrY/maxresdefault.jpg",
+          "alt_text": "wf_01",
+          "display_order": 0,
+          "created_at": "2026-07-21T19:09:58.171Z"
+        },
+        {
+          "id": "7aa416bc-cece-4018-b220-ce1cb9667af3",
+          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+          "media_type": "video",
+          "url": "https://youtu.be/oVIX80b182w",
+          "thumbnail_url": "https://img.youtube.com/vi/oVIX80b182w/maxresdefault.jpg",
           "alt_text": "wf_02",
           "display_order": 1,
-          "created_at": "2026-07-21T18:05:15.294Z"
+          "created_at": "2026-07-21T19:10:17.004Z"
+        },
+        {
+          "id": "7e3265cc-168d-4c0e-b01b-56ba7aca37db",
+          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+          "media_type": "video",
+          "url": "https://youtu.be/qkw-lOf5GY4",
+          "thumbnail_url": "https://img.youtube.com/vi/qkw-lOf5GY4/maxresdefault.jpg",
+          "alt_text": "wf_03",
+          "display_order": 2,
+          "created_at": "2026-07-21T19:10:33.390Z"
+        },
+        {
+          "id": "07072f20-98bd-4c90-9cf2-795b70e6cfc7",
+          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+          "media_type": "video",
+          "url": "https://youtu.be/oKX8rAAXtzY",
+          "thumbnail_url": "https://img.youtube.com/vi/oKX8rAAXtzY/maxresdefault.jpg",
+          "alt_text": "wf_03",
+          "display_order": 3,
+          "created_at": "2026-07-21T19:10:50.040Z"
+        },
+        {
+          "id": "5a9a5768-d115-44bb-9d93-8e382a75682f",
+          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+          "media_type": "video",
+          "url": "https://youtu.be/oKX8rAAXtzY",
+          "thumbnail_url": "https://img.youtube.com/vi/oKX8rAAXtzY/maxresdefault.jpg",
+          "alt_text": "wf_04",
+          "display_order": 4,
+          "created_at": "2026-07-21T19:10:58.357Z"
         }
       ]
     }
   ],
-  "portraits": [
-    {
-      "id": "d59e7d70-02e7-4e63-be75-0802c94d0c5d",
-      "url": "/uploads/portrait_c3a0d299bf7747a68d3271fc849123a0.jpg",
-      "alt_text": null,
-      "display_order": 6,
-      "created_at": "2026-07-21T18:10:16.971Z"
-    }
-  ],
+  "portraits": [],
   "stats": {
     "id": 1,
     "total_views": 10000000,
@@ -279,6 +301,6 @@
     "whatsapp_greeting": "Hi+Akshay%2C+I+saw+your+portfolio+and+would+love+to+collaborate%21",
     "email": "akshayvastradmedia@gmail.com",
     "instagram_handle": "@akkira.weddings",
-    "updated_at": "2026-07-21T18:12:15.916Z"
+    "updated_at": "2026-07-21T18:19:02.043Z"
   }
 }
