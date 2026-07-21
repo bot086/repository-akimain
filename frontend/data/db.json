@@ -220,6 +220,26 @@
           "alt_text": "AVMH",
           "display_order": 20,
           "created_at": "2026-07-15T14:15:27.783Z"
+        },
+        {
+          "id": "4119fe79-a231-4ea6-ae23-a34c48200425",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "video",
+          "url": "https://youtu.be/16iwVAEJwpA",
+          "thumbnail_url": "https://img.youtube.com/vi/16iwVAEJwpA/maxresdefault.jpg",
+          "alt_text": "wf_04",
+          "display_order": 21,
+          "created_at": "2026-07-21T19:27:31.428Z"
+        },
+        {
+          "id": "7ea57ed7-2d4a-47b3-a0e8-c4fb57db409a",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "video",
+          "url": "https://www.youtube.com/shorts/gRN_ahRWV6k",
+          "thumbnail_url": null,
+          "alt_text": "reel_01",
+          "display_order": 22,
+          "created_at": "2026-07-21T19:28:51.973Z"
         }
       ]
     },
@@ -275,14 +295,34 @@
           "created_at": "2026-07-21T19:10:50.040Z"
         },
         {
-          "id": "5a9a5768-d115-44bb-9d93-8e382a75682f",
+          "id": "6fe9e340-6a44-4fe0-84ab-4cad125aa191",
           "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
           "media_type": "video",
-          "url": "https://youtu.be/oKX8rAAXtzY",
-          "thumbnail_url": "https://img.youtube.com/vi/oKX8rAAXtzY/maxresdefault.jpg",
-          "alt_text": "wf_04",
+          "url": "https://www.youtube.com/shorts/0MP4D85I9D8",
+          "thumbnail_url": null,
+          "alt_text": "reel_02",
           "display_order": 4,
-          "created_at": "2026-07-21T19:10:58.357Z"
+          "created_at": "2026-07-21T19:29:58.528Z"
+        },
+        {
+          "id": "93f723f8-0143-4bee-ad57-c297a771ef4a",
+          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+          "media_type": "video",
+          "url": "https://www.youtube.com/shorts/E2_gNUUg0Os",
+          "thumbnail_url": null,
+          "alt_text": "reel_03",
+          "display_order": 5,
+          "created_at": "2026-07-21T19:33:25.079Z"
+        },
+        {
+          "id": "7d02c67f-e9bf-40b7-b060-dc51ac7a6b7a",
+          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
+          "media_type": "video",
+          "url": "https://www.youtube.com/shorts/E2_gNUUg0Os",
+          "thumbnail_url": null,
+          "alt_text": "reel_04",
+          "display_order": 6,
+          "created_at": "2026-07-21T19:33:53.335Z"
         }
       ]
     }
