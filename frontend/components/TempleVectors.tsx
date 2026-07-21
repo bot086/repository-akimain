@@ -338,7 +338,7 @@ export default function TempleVectors() {
     <div
       ref={containerRef}
       className="fixed inset-0 w-full h-full pointer-events-none overflow-hidden"
-      style={{ zIndex: 0 }}
+      style={{ zIndex: 10 }}
       aria-hidden="true"
     >
 
