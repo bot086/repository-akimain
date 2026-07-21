@@ -10,6 +10,7 @@ import StatsBar from "./StatsBar";
 import ServicePillars from "./ServicePillars";
 import MasonryGrid from "./MasonryGrid";
 import FilmReel from "./FilmReel";
+import ClientTestimonials from "./ClientTestimonials";
 import ContactSection from "./ContactSection";
 
 interface Props {
@@ -36,6 +37,9 @@ export default function HomeClient({ allProjects, contact }: Props) {
 
       {/* 5. Service Pillars */}
       <ServicePillars />
+
+      {/* 5b. Client Testimonials — scrolling marquee panel */}
+      <ClientTestimonials />
 
       {/* 6b. Photo Gallery — masonry with lightbox */}
       <MasonryGrid projects={allProjects} />

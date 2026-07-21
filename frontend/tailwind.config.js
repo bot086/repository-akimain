@@ -34,10 +34,12 @@ module.exports = {
         mono:  ["DM Mono", "monospace"],
       },
       animation: {
-        "fade-up":     "fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards",
-        "fade-in":     "fadeIn 0.7s ease forwards",
-        "gold-shimmer":"goldShimmer 3s ease-in-out infinite",
-        "line-grow":   "lineGrow 0.8s cubic-bezier(0.16,1,0.3,1) forwards",
+        "fade-up":       "fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards",
+        "fade-in":       "fadeIn 0.7s ease forwards",
+        "gold-shimmer":  "goldShimmer 3s ease-in-out infinite",
+        "line-grow":     "lineGrow 0.8s cubic-bezier(0.16,1,0.3,1) forwards",
+        "marquee-left":  "marquee-left 38s linear infinite",
+        "marquee-right": "marquee-right 44s linear infinite",
       },
       keyframes: {
         fadeUp: {
@@ -55,6 +57,14 @@ module.exports = {
         lineGrow: {
           "0%":   { transform: "scaleX(0)", transformOrigin: "left" },
           "100%": { transform: "scaleX(1)", transformOrigin: "left" },
+        },
+        "marquee-left": {
+          "0%":   { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "marquee-right": {
+          "0%":   { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0)" },
         },
       },
       backgroundImage: {

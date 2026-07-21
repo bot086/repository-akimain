@@ -33,23 +33,32 @@ const VIDEO_SLOTS = [
 ];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type Tab = "projects" | "photos" | "videos" | "portraits";
+type Tab = "projects" | "photos" | "videos" | "portraits" | "contact";
+
+interface ContactInfo {
+  whatsapp_number: string;
+  email: string;
+  instagram_handle: string;
+}
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function AdminDashboard({ secret, onLogout }: { secret: string; onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState<Tab>("projects");
   const [projects, setProjects] = useState<Project[]>([]);
   const [portraits, setPortraits] = useState<Portrait[]>([]);
+  const [contact, setContact] = useState<ContactInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchAll = async () => {
     try {
-      const [p, por] = await Promise.all([
+      const [p, por, c] = await Promise.all([
         getAllProjects(),
         fetch(`/api/portraits`).then(r => r.json()),
+        fetch(`/api/contact`).then(r => r.json()),
       ]);
       setProjects(p);
       setPortraits(por);
+      setContact(c);
     } catch (e) {
       console.error(e);
     } finally {
@@ -66,6 +75,7 @@ export default function AdminDashboard({ secret, onLogout }: { secret: string; o
     { id: "photos",   label: "Upload Photos" },
     { id: "videos",   label: "Add Videos" },
     { id: "portraits",label: "Hero Portraits" },
+    { id: "contact",  label: "Contact Info" },
   ];
 
   return (
@@ -97,6 +107,7 @@ export default function AdminDashboard({ secret, onLogout }: { secret: string; o
         {activeTab === "photos"    && <PhotosTab    projects={projects}  secret={secret} onRefresh={fetchAll} />}
         {activeTab === "videos"    && <VideosTab    projects={projects}  secret={secret} onRefresh={fetchAll} />}
         {activeTab === "portraits" && <PortraitsTab portraits={portraits} secret={secret} onRefresh={fetchAll} />}
+        {activeTab === "contact"   && <ContactTab   contact={contact}    secret={secret} onRefresh={fetchAll} />}
       </div>
     </div>
   );
@@ -494,5 +505,137 @@ function PortraitsTab({ portraits, secret, onRefresh }: { portraits: Portrait[];
         </button>
       </form>
     </div>
+  );
+}
+
+// ─── Contact Tab ───────────────────────────────────────────────────────────────
+function ContactTab({
+  contact,
+  secret,
+  onRefresh,
+}: {
+  contact: ContactInfo | null;
+  secret: string;
+  onRefresh: () => void;
+}) {
+  const [email, setEmail] = useState(contact?.email || "");
+  const [instagram, setInstagram] = useState(contact?.instagram_handle || "");
+  const [whatsapp, setWhatsapp] = useState(contact?.whatsapp_number || "");
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  // Sync if contact loads after mount
+  useEffect(() => {
+    if (contact) {
+      setEmail(contact.email);
+      setInstagram(contact.instagram_handle);
+      setWhatsapp(contact.whatsapp_number);
+    }
+  }, [contact]);
+
+  const save = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+    setSaved(false);
+    const res = await authFetch(
+      "/api/admin/contact",
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          instagram_handle: instagram.trim(),
+          whatsapp_number: whatsapp.trim(),
+        }),
+      },
+      secret
+    );
+    setSaving(false);
+    if (res.ok) {
+      setSaved(true);
+      onRefresh();
+      setTimeout(() => setSaved(false), 3000);
+    } else {
+      alert("Failed to save contact info. Check the console.");
+    }
+  };
+
+  return (
+    <form onSubmit={save} className="space-y-6 max-w-lg">
+      <div>
+        <h2 className="text-lg font-bold font-serif mb-1">Contact Information</h2>
+        <p className="text-xs text-ink/50">
+          Changes save to <code className="font-mono bg-ink/5 px-1 py-0.5 rounded">data/db.json</code> and
+          reflect instantly on the live site. Push to git to also update the deployed build.
+        </p>
+      </div>
+
+      <div className="space-y-4 bg-white/50 p-5 rounded-xl border border-ink/10">
+        <div>
+          <label className="block text-xs font-medium text-ink/60 mb-1.5">
+            Email Address
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="akshayvastradmedia@gmail.com"
+            className="w-full px-4 py-2.5 rounded-xl border border-ink/20 bg-white/70 focus:outline-none focus:ring-2 focus:ring-gold font-mono text-sm"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-ink/60 mb-1.5">
+            Instagram Handle <span className="font-normal text-gold/70">(include @)</span>
+          </label>
+          <input
+            type="text"
+            value={instagram}
+            onChange={(e) => setInstagram(e.target.value)}
+            placeholder="@akkira.weddings"
+            className="w-full px-4 py-2.5 rounded-xl border border-ink/20 bg-white/70 focus:outline-none focus:ring-2 focus:ring-gold font-mono text-sm"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-ink/60 mb-1.5">
+            WhatsApp Number <span className="font-normal text-gold/70">(country code, no +)</span>
+          </label>
+          <input
+            type="text"
+            value={whatsapp}
+            onChange={(e) => setWhatsapp(e.target.value)}
+            placeholder="918660976964"
+            className="w-full px-4 py-2.5 rounded-xl border border-ink/20 bg-white/70 focus:outline-none focus:ring-2 focus:ring-gold font-mono text-sm"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        disabled={saving}
+        className="w-full bg-gold text-ink font-bold py-3.5 rounded-xl shadow-md disabled:opacity-50 hover:bg-gold-light transition flex items-center justify-center gap-2"
+      >
+        {saving ? (
+          <>
+            <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            Saving...
+          </>
+        ) : saved ? (
+          "✓ Saved!"
+        ) : (
+          "Save Contact Info"
+        )}
+      </button>
+
+      {saved && (
+        <p className="text-center text-sm text-green-600 font-medium">
+          ✓ Contact info updated and live on the site.
+        </p>
+      )}
+    </form>
   );
 }

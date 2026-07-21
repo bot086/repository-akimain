@@ -57,27 +57,8 @@ export default function HeroSection() {
       <div className="absolute top-0 inset-x-0 h-[2px] pointer-events-none"
         style={{ background: "linear-gradient(90deg, transparent 0%, rgba(196,149,42,0.5) 30%, rgba(232,201,122,0.8) 50%, rgba(196,149,42,0.5) 70%, transparent 100%)" }} />
 
-      {/* ── Nav ── */}
-      <motion.div className="relative z-10 flex justify-between items-center px-8 md:px-14 pt-9"
-        initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}>
-        <div className="flex items-center gap-3">
-          <span className="font-serif italic text-gold text-xl tracking-wide">AV</span>
-          <span className="w-px h-4 bg-gold/30" />
-          <span className="font-mono text-[9px] tracking-[0.3em] text-gold-muted uppercase">Media House</span>
-        </div>
-        <nav className="hidden md:flex gap-8">
-          {[["Work", "#work"], ["Gallery", "#gallery"], ["About", "#about"], ["Contact", "#contact"]].map(([label, href]) => (
-            <a key={label} href={href}
-              className="font-sans text-[11px] tracking-[0.22em] text-ink-muted hover:text-gold uppercase transition-colors duration-300">
-              {label}
-            </a>
-          ))}
-        </nav>
-      </motion.div>
-
-      {/* ── Main 2-column body ── */}
-      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-0 px-8 md:px-14 pt-10 pb-12">
+      {/* ── Main 2-column body — pt-24 clears the fixed Navbar ── */}
+      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-0 px-8 md:px-14 pt-28 pb-12">
 
         {/* ── LEFT: Name block + roles + CTA ── */}
         <div className="flex flex-col justify-center pr-0 lg:pr-12">
