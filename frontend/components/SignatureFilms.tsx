@@ -16,7 +16,7 @@ import { getAllProjects, type MediaItem } from "@/lib/api";
 
 // ── YouTube helpers ───────────────────────────────────────────────────────────
 function getYouTubeId(url: string): string | null {
-  for (const pattern of ["v=", "youtu.be/", "embed/"]) {
+  for (const pattern of ["v=", "youtu.be/", "embed/", "shorts/"]) {
     if (url.includes(pattern)) {
       const part = url.split(pattern).pop() || "";
       return part.split("&")[0].split("?")[0] || null;
@@ -349,7 +349,7 @@ function WeddingFilmCard({
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function SignatureFilms() {
-  const [reels, setReels] = useState<(MediaItem | null)[]>(Array(6).fill(null));
+  const [reels, setReels] = useState<(MediaItem | null)[]>(Array(8).fill(null));
   const [wfs, setWfs] = useState<(MediaItem | null)[]>(Array(4).fill(null));
 
   useEffect(() => {
@@ -371,17 +371,17 @@ export default function SignatureFilms() {
         }
 
         for (const v of untagged) {
-          if (reelVideos.length < 6) reelVideos.push(v);
+          if (reelVideos.length < 8) reelVideos.push(v);
           else if (wfVideos.length < 4) wfVideos.push(v);
         }
 
-        setReels(Array.from({ length: 6 }, (_, i) => reelVideos[i] ?? null));
+        setReels(Array.from({ length: 8 }, (_, i) => reelVideos[i] ?? null));
         setWfs(Array.from({ length: 4 }, (_, i) => wfVideos[i] ?? null));
       })
       .catch(() => {});
   }, []);
 
-  const reelLabels = ["Reel 01", "Reel 02", "Reel 03", "Reel 04", "Reel 05", "Reel 06"];
+  const reelLabels = ["Reel 01", "Reel 02", "Reel 03", "Reel 04", "Reel 05", "Reel 06", "Reel 07", "Reel 08"];
   const wfLabels = ["Wedding Film 01", "Wedding Film 02", "Wedding Film 03", "Wedding Film 04"];
 
   return (
@@ -396,7 +396,7 @@ export default function SignatureFilms() {
         </div>
         <div className="flex items-end justify-between gap-4 flex-wrap">
           <h2 className="font-serif font-light text-4xl md:text-6xl text-ink">
-            10 <em className="text-gold-gradient not-italic">Stories</em>
+            12 <em className="text-gold-gradient not-italic">Stories</em>
           </h2>
           <p className="font-sans font-light text-sm text-ink-muted">
             Hover to preview · Click to watch
@@ -404,8 +404,23 @@ export default function SignatureFilms() {
         </div>
       </div>
 
+      {/* ── WEDDING FILMS (16:9 cards, 2-col grid) ── */}
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="font-mono text-[10px] tracking-[0.3em] text-gold-muted uppercase">
+            🎬 Cinematic Films
+          </span>
+          <div className="flex-1 h-px bg-gold/15" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+          {wfs.map((media, i) => (
+            <WeddingFilmCard key={i} media={media} index={i} slotLabel={wfLabels[i]} />
+          ))}
+        </div>
+      </div>
+
       {/* ── REELS ROW (9:16 cards, horizontal scroll) ── */}
-      <div className="mb-6">
+      <div>
         <div className="flex items-center gap-3 mb-4">
           <span className="font-mono text-[10px] tracking-[0.3em] text-gold-muted uppercase">
             📱 Reels
@@ -426,21 +441,6 @@ export default function SignatureFilms() {
             <div key={i} style={{ scrollSnapAlign: "start" }}>
               <ReelCard media={media} index={i} slotLabel={reelLabels[i]} />
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── WEDDING FILMS (16:9 cards, 2-col grid) ── */}
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <span className="font-mono text-[10px] tracking-[0.3em] text-gold-muted uppercase">
-            🎬 Wedding Films
-          </span>
-          <div className="flex-1 h-px bg-gold/15" />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-          {wfs.map((media, i) => (
-            <WeddingFilmCard key={i} media={media} index={i} slotLabel={wfLabels[i]} />
           ))}
         </div>
       </div>
