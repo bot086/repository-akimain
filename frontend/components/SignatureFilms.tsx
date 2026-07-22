@@ -359,24 +359,55 @@ export default function SignatureFilms() {
           (p.media ?? []).filter((m) => m.media_type === "video")
         );
 
-        const reelVideos: MediaItem[] = [];
-        const wfVideos: MediaItem[] = [];
+        const reelVideos: (MediaItem | null)[] = Array(8).fill(null);
+        const wfVideos: (MediaItem | null)[] = Array(4).fill(null);
         const untagged: MediaItem[] = [];
 
         for (const v of allVideos) {
-          const tag = (v.alt_text || "").toLowerCase();
-          if (tag.startsWith("wf") || tag.startsWith("wedding")) wfVideos.push(v);
-          else if (tag.startsWith("reel") || tag.startsWith("r_")) reelVideos.push(v);
-          else untagged.push(v);
+          const tag = (v.alt_text || "").toLowerCase().trim();
+          let placed = false;
+
+          // Check for Wedding Film tags (wf_01 to wf_04)
+          const wfMatch = tag.match(/^wf_0?([1-4])$/);
+          if (wfMatch) {
+            const idx = parseInt(wfMatch[1]) - 1;
+            if (!wfVideos[idx]) {
+              wfVideos[idx] = v;
+              placed = true;
+            }
+          }
+
+          // Check for Reel tags (reel_01 to reel_08)
+          if (!placed) {
+            const reelMatch = tag.match(/^reel_0?([1-8])$/);
+            if (reelMatch) {
+              const idx = parseInt(reelMatch[1]) - 1;
+              if (!reelVideos[idx]) {
+                reelVideos[idx] = v;
+                placed = true;
+              }
+            }
+          }
+
+          if (!placed) untagged.push(v);
         }
 
-        for (const v of untagged) {
-          if (reelVideos.length < 8) reelVideos.push(v);
-          else if (wfVideos.length < 4) wfVideos.push(v);
+        // Fill remaining empty Reel slots with untagged videos
+        for (let i = 0; i < 8; i++) {
+          if (!reelVideos[i] && untagged.length > 0) {
+            reelVideos[i] = untagged.shift()!;
+          }
         }
 
-        setReels(Array.from({ length: 8 }, (_, i) => reelVideos[i] ?? null));
-        setWfs(Array.from({ length: 4 }, (_, i) => wfVideos[i] ?? null));
+        // Fill remaining empty WF slots with untagged videos
+        for (let i = 0; i < 4; i++) {
+          if (!wfVideos[i] && untagged.length > 0) {
+            wfVideos[i] = untagged.shift()!;
+          }
+        }
+
+        setReels(reelVideos);
+        setWfs(wfVideos);
       })
       .catch(() => {});
   }, []);
