@@ -20,16 +20,18 @@ async function authFetch(url: string, options: RequestInit, secret: string) {
 
 // ─── Video slot definitions ───────────────────────────────────────────────────
 const VIDEO_SLOTS = [
+  { label: "Wedding Film 1", prefix: "wf_01",   type: "wf"   as const },
+  { label: "Wedding Film 2", prefix: "wf_02",   type: "wf"   as const },
+  { label: "Wedding Film 3", prefix: "wf_03",   type: "wf"   as const },
+  { label: "Wedding Film 4", prefix: "wf_04",   type: "wf"   as const },
   { label: "Reel 1",         prefix: "reel_01", type: "reel" as const },
   { label: "Reel 2",         prefix: "reel_02", type: "reel" as const },
   { label: "Reel 3",         prefix: "reel_03", type: "reel" as const },
   { label: "Reel 4",         prefix: "reel_04", type: "reel" as const },
   { label: "Reel 5",         prefix: "reel_05", type: "reel" as const },
   { label: "Reel 6",         prefix: "reel_06", type: "reel" as const },
-  { label: "Wedding Film 1", prefix: "wf_01",   type: "wf"   as const },
-  { label: "Wedding Film 2", prefix: "wf_02",   type: "wf"   as const },
-  { label: "Wedding Film 3", prefix: "wf_03",   type: "wf"   as const },
-  { label: "Wedding Film 4", prefix: "wf_04",   type: "wf"   as const },
+  { label: "Reel 7",         prefix: "reel_07", type: "reel" as const },
+  { label: "Reel 8",         prefix: "reel_08", type: "reel" as const },
 ];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -315,36 +317,8 @@ function VideosTab({ projects, secret, onRefresh }: { projects: Project[]; secre
           Videos fill the 10-slot Signature Films grid. Tag the caption to control which slot a video lands in.
         </p>
 
-        {/* Reels */}
-        <p className="text-xs font-mono tracking-widest text-gold uppercase mb-2">📱 Reels (9:16) — slots 1–6</p>
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          {VIDEO_SLOTS.filter(s => s.type === "reel").map(slot => {
-            const vid = existingVideos.find(v => (v.alt_text || "").toLowerCase().startsWith(slot.prefix));
-            return (
-              <div key={slot.prefix}
-                className={`relative rounded-xl border p-3 text-center cursor-pointer transition group ${vid ? "border-gold/50 bg-gold/5" : "border-ink/10 bg-white/40"}`}
-                onClick={() => setAltText(slot.prefix)}>
-                {vid?.thumbnail_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={vid.thumbnail_url} alt="" className="w-full aspect-[9/16] object-cover rounded-lg mb-2" />
-                ) : (
-                  <div className="w-full aspect-[9/16] bg-ink/5 rounded-lg mb-2 flex items-center justify-center">
-                    <span className="text-2xl opacity-20">📱</span>
-                  </div>
-                )}
-                <p className="text-xs font-semibold">{slot.label}</p>
-                <p className={`text-[10px] mt-0.5 ${vid ? "text-green-600" : "text-ink/30"}`}>{vid ? "✓ Filled" : "Empty"}</p>
-                {vid && (
-                  <button onClick={e => { e.stopPropagation(); deleteVideo(vid.id); }}
-                    className="absolute top-2 right-2 bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">✕</button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
         {/* Wedding Films */}
-        <p className="text-xs font-mono tracking-widest text-gold uppercase mb-2">🎬 Wedding Films (16:9) — slots 1–4</p>
+        <p className="text-xs font-mono tracking-widest text-gold uppercase mb-2 mt-4">🎬 Cinematic Films (16:9) — slots 1–4</p>
         <div className="grid grid-cols-2 gap-2">
           {VIDEO_SLOTS.filter(s => s.type === "wf").map(slot => {
             const vid = existingVideos.find(v => (v.alt_text || "").toLowerCase().startsWith(slot.prefix));
@@ -358,6 +332,34 @@ function VideosTab({ projects, secret, onRefresh }: { projects: Project[]; secre
                 ) : (
                   <div className="w-full aspect-video bg-ink/5 rounded-lg mb-2 flex items-center justify-center">
                     <span className="text-2xl opacity-20">🎬</span>
+                  </div>
+                )}
+                <p className="text-xs font-semibold">{slot.label}</p>
+                <p className={`text-[10px] mt-0.5 ${vid ? "text-green-600" : "text-ink/30"}`}>{vid ? "✓ Filled" : "Empty"}</p>
+                {vid && (
+                  <button onClick={e => { e.stopPropagation(); deleteVideo(vid.id); }}
+                    className="absolute top-2 right-2 bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">✕</button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Reels */}
+        <p className="text-xs font-mono tracking-widest text-gold uppercase mb-2 mt-8">📱 Reels (9:16) — slots 1–8</p>
+        <div className="grid grid-cols-4 gap-2 mb-4">
+          {VIDEO_SLOTS.filter(s => s.type === "reel").map(slot => {
+            const vid = existingVideos.find(v => (v.alt_text || "").toLowerCase().startsWith(slot.prefix));
+            return (
+              <div key={slot.prefix}
+                className={`relative rounded-xl border p-3 text-center cursor-pointer transition group ${vid ? "border-gold/50 bg-gold/5" : "border-ink/10 bg-white/40"}`}
+                onClick={() => setAltText(slot.prefix)}>
+                {vid?.thumbnail_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={vid.thumbnail_url} alt="" className="w-full aspect-[9/16] object-cover rounded-lg mb-2" />
+                ) : (
+                  <div className="w-full aspect-[9/16] bg-ink/5 rounded-lg mb-2 flex items-center justify-center">
+                    <span className="text-2xl opacity-20">📱</span>
                   </div>
                 )}
                 <p className="text-xs font-semibold">{slot.label}</p>
