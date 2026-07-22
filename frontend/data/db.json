@@ -240,6 +240,46 @@
           "alt_text": "reel_01",
           "display_order": 22,
           "created_at": "2026-07-21T19:28:51.973Z"
+        },
+        {
+          "id": "f173e96c-edb6-4197-99ef-42890ffd55d7",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "video",
+          "url": "https://www.youtube.com/shorts/3y4Okdw3roI",
+          "thumbnail_url": null,
+          "alt_text": "reel_04",
+          "display_order": 23,
+          "created_at": "2026-07-22T03:27:33.323Z"
+        },
+        {
+          "id": "1982977f-07ff-46e1-99a6-45b52b530478",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "video",
+          "url": "https://www.youtube.com/shorts/Mg10VRba_1o",
+          "thumbnail_url": null,
+          "alt_text": "reel_06",
+          "display_order": 24,
+          "created_at": "2026-07-22T03:32:56.299Z"
+        },
+        {
+          "id": "68ae2b80-5291-41e6-bb24-7f6243f7f4b9",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "video",
+          "url": "https://www.youtube.com/shorts/gpIybyYEP2A",
+          "thumbnail_url": null,
+          "alt_text": "reel_07",
+          "display_order": 25,
+          "created_at": "2026-07-22T03:34:15.932Z"
+        },
+        {
+          "id": "77f43813-48ad-4804-890e-d2a191f65919",
+          "project_id": "406bc809-9693-43a3-8df0-de64f69d665f",
+          "media_type": "video",
+          "url": "https://www.youtube.com/shorts/LMVMUESL9k4",
+          "thumbnail_url": null,
+          "alt_text": "reel_08",
+          "display_order": 26,
+          "created_at": "2026-07-22T03:34:34.842Z"
         }
       ]
     },
@@ -315,34 +355,14 @@
           "created_at": "2026-07-21T19:33:25.079Z"
         },
         {
-          "id": "7d02c67f-e9bf-40b7-b060-dc51ac7a6b7a",
+          "id": "7e7f7efc-d4c8-478d-8143-0b3119805ae4",
           "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
           "media_type": "video",
-          "url": "https://www.youtube.com/shorts/E2_gNUUg0Os",
-          "thumbnail_url": null,
-          "alt_text": "reel_04",
-          "display_order": 6,
-          "created_at": "2026-07-21T19:33:53.335Z"
-        },
-        {
-          "id": "61966491-29ef-4d2d-aacb-f828f02e9551",
-          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
-          "media_type": "video",
-          "url": "https://www.youtube.com/shorts/3y4Okdw3roI",
+          "url": "https://www.youtube.com/shorts/BtXoIoH3W1I",
           "thumbnail_url": null,
           "alt_text": "reel_05",
-          "display_order": 7,
-          "created_at": "2026-07-21T19:46:45.417Z"
-        },
-        {
-          "id": "b49b16bf-a407-42fd-8cff-2ab49bfef07c",
-          "project_id": "be1c9b0b-a5bb-4aab-a997-23ac171c2d0a",
-          "media_type": "video",
-          "url": "https://www.youtube.com/shorts/LMVMUESL9k4",
-          "thumbnail_url": null,
-          "alt_text": "reel_06",
-          "display_order": 8,
-          "created_at": "2026-07-21T19:47:10.877Z"
+          "display_order": 6,
+          "created_at": "2026-07-22T03:28:39.874Z"
         }
       ]
     }
