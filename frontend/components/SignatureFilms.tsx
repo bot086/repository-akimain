@@ -10,7 +10,7 @@
 //   wf_01…wf_04      → Wedding Film slots
 //   untagged          → fills reels first, then wedding films
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { getAllProjects, type MediaItem } from "@/lib/api";
 
@@ -351,6 +351,10 @@ function WeddingFilmCard({
 export default function SignatureFilms() {
   const [reels, setReels] = useState<(MediaItem | null)[]>(Array(8).fill(null));
   const [wfs, setWfs] = useState<(MediaItem | null)[]>(Array(4).fill(null));
+  const reelTrackRef = useRef<HTMLDivElement>(null);
+  const reelScrollX = useRef(0);
+  const reelAnimRef = useRef<number>(0);
+  const reelPaused = useRef(false);
 
   useEffect(() => {
     getAllProjects()
@@ -412,8 +416,40 @@ export default function SignatureFilms() {
       .catch(() => {});
   }, []);
 
+  // Auto-scroll animation for Reels
+  useEffect(() => {
+    const track = reelTrackRef.current;
+    if (!track) return;
+
+    const CARD_WIDTH = 150; // approximate width + gap per card
+    const SPEED = 0.35; // px per frame
+    const totalWidth = reels.filter(Boolean).length * CARD_WIDTH;
+
+    if (totalWidth === 0) return;
+
+    const animate = () => {
+      if (!reelPaused.current) {
+        reelScrollX.current += SPEED;
+        // Seamless loop: when scrolled one full set, jump back
+        if (reelScrollX.current >= totalWidth) {
+          reelScrollX.current -= totalWidth;
+        }
+        if (track) {
+          track.style.transform = `translateX(-${reelScrollX.current}px)`;
+        }
+      }
+      reelAnimRef.current = requestAnimationFrame(animate);
+    };
+
+    reelAnimRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(reelAnimRef.current);
+  }, [reels]);
+
   const reelLabels = ["Reel 01", "Reel 02", "Reel 03", "Reel 04", "Reel 05", "Reel 06", "Reel 07", "Reel 08"];
   const wfLabels = ["Wedding Film 01", "Wedding Film 02", "Wedding Film 03", "Wedding Film 04"];
+
+  // Triple the reels for seamless infinite loop
+  const tripledReels = [...reels, ...reels, ...reels];
 
   return (
     <section id="films" className="section-pad bg-cream overflow-hidden">
@@ -450,8 +486,8 @@ export default function SignatureFilms() {
         </div>
       </div>
 
-      {/* ── REELS ROW (9:16 cards, horizontal scroll) ── */}
-      <div>
+      {/* ── REELS ROW (9:16 cards, dynamic auto-scroll) ── */}
+      <div className="relative">
         <div className="flex items-center gap-3 mb-4">
           <span className="font-mono text-[10px] tracking-[0.3em] text-gold-muted uppercase">
             📱 Reels
@@ -459,20 +495,35 @@ export default function SignatureFilms() {
           <div className="flex-1 h-px bg-gold/15" />
         </div>
         <div
-          className="flex gap-3 overflow-x-auto pb-3"
-          style={{
-            scrollSnapType: "x mandatory",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
+          className="relative overflow-hidden pb-3"
+          onMouseEnter={() => { reelPaused.current = true; }}
+          onMouseLeave={() => { reelPaused.current = false; }}
         >
-          {/* Hide scrollbar on webkit */}
-          <style>{`.reel-row::-webkit-scrollbar { display: none; }`}</style>
-          {reels.map((media, i) => (
-            <div key={i} style={{ scrollSnapAlign: "start" }}>
-              <ReelCard media={media} index={i} slotLabel={reelLabels[i]} />
-            </div>
-          ))}
+          {/* Auto-scrolling track */}
+          <div
+            ref={reelTrackRef}
+            className="flex gap-3 will-change-transform"
+            style={{
+              width: "max-content",
+              transform: "translateX(0px)",
+            }}
+          >
+            {tripledReels.map((media, i) => (
+              <div key={`${media?.id || i}-${i}`}>
+                <ReelCard media={media} index={i % 8} slotLabel={reelLabels[i % 8]} />
+              </div>
+            ))}
+          </div>
+
+          {/* Left + right fade vignette for seamless infinite look */}
+          <div
+            className="absolute inset-y-0 left-0 w-20 pointer-events-none z-10"
+            style={{ background: "linear-gradient(90deg, rgba(249,246,240,1) 0%, transparent 100%)" }}
+          />
+          <div
+            className="absolute inset-y-0 right-0 w-20 pointer-events-none z-10"
+            style={{ background: "linear-gradient(270deg, rgba(249,246,240,1) 0%, transparent 100%)" }}
+          />
         </div>
       </div>
 

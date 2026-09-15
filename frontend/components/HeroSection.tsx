@@ -4,6 +4,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { getPortraits, resolveMediaUrl, type Portrait } from "@/lib/api";
 
 function PhotoSlot({ portrait, label, delay }: { portrait?: Portrait; label: string; delay: number }) {
@@ -19,11 +20,12 @@ function PhotoSlot({ portrait, label, delay }: { portrait?: Portrait; label: str
       whileHover={{ scale: 1.012 }}
     >
       {portrait ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={resolveMediaUrl(portrait.url)}
           alt={portrait.alt_text ?? label}
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 150px"
         />
       ) : null}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -73,32 +75,112 @@ export default function HeroSection() {
             </span>
           </motion.div>
 
-          {/* ── AKSHAY — no margin bottom ── */}
-          <div className="overflow-hidden">
-            <motion.h1
-              className="font-serif font-light text-ink leading-[0.92] tracking-[-0.015em]"
-              style={{ fontSize: "clamp(4.2rem, 11.5vw, 10rem)" }}
-              initial={{ y: "105%" }} animate={{ y: 0 }}
-              transition={{ duration: 1.05, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>
-              Akshay
-            </motion.h1>
-          </div>
+          {/* ── Name + Service Provider Aesthetic Portrait Showcase ── */}
+          <div className="flex flex-col lg:flex-row lg:items-center gap-6 mb-6">
+            <div className="flex flex-col">
+              {/* ── AKSHAY — no margin bottom ── */}
+              <div className="overflow-hidden">
+                <motion.h1
+                  className="font-serif font-light text-ink leading-[0.92] tracking-[-0.015em]"
+                  style={{ fontSize: "clamp(3.8rem, 10.5vw, 9.5rem)" }}
+                  initial={{ y: "105%" }} animate={{ y: 0 }}
+                  transition={{ duration: 1.05, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+                  Akshay
+                </motion.h1>
+              </div>
 
-          {/* ── VASTRAD — immediately after Akshay ── */}
-          <div className="overflow-hidden mb-6">
-            <motion.h1
-              className="font-serif italic font-light leading-[0.92] tracking-[-0.015em]"
-              style={{
-                fontSize: "clamp(4.2rem, 11.5vw, 10rem)",
-                background: "linear-gradient(120deg, #D4A843 0%, #E8C97A 35%, #C4952A 65%, #B8860B 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-              initial={{ y: "105%" }} animate={{ y: 0 }}
-              transition={{ duration: 1.05, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-              Vastrad
-            </motion.h1>
+              {/* ── VASTRAD — immediately after Akshay ── */}
+              <div className="overflow-hidden">
+                <motion.h1
+                  className="font-serif italic font-light leading-[0.92] tracking-[-0.015em]"
+                  style={{
+                    fontSize: "clamp(3.8rem, 10.5vw, 9.5rem)",
+                    background: "linear-gradient(120deg, #D4A843 0%, #E8C97A 35%, #C4952A 65%, #B8860B 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                  initial={{ y: "105%" }} animate={{ y: 0 }}
+                  transition={{ duration: 1.05, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}>
+                  Vastrad
+                </motion.h1>
+              </div>
+            </div>
+
+            {/* ── Multi-Photo Aesthetic Collage next to name ── */}
+            <motion.div
+              className="flex items-center gap-2 self-start lg:self-center mt-2 lg:mt-0 lg:ml-4"
+              initial={{ opacity: 0, scale: 0.92, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Portrait 1 - Tallest editorial frame */}
+              {portraits[0] && (
+                <div
+                  className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg"
+                  style={{
+                    width: "clamp(52px, 6vw, 70px)",
+                    height: "clamp(78px, 9vw, 105px)",
+                    border: "2px solid rgba(232,201,122,0.4)",
+                    boxShadow: "0 6px 20px rgba(196,149,42,0.25), 0 2px 8px rgba(0,0,0,0.15)"
+                  }}
+                >
+                  <Image
+                    src={resolveMediaUrl(portraits[0].url)}
+                    alt="Akshay Vastrad"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="80px"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60" />
+                </div>
+              )}
+
+              {/* Portrait 2 - Medium Polaroid style, rotated */}
+              {portraits[1] && (
+                <div
+                  className="relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[-4deg] hover:rotate-0 transition-all duration-500"
+                  style={{
+                    width: "clamp(48px, 5.5vw, 64px)",
+                    height: "clamp(64px, 7.5vw, 88px)",
+                    border: "1.5px solid rgba(232,201,122,0.35)",
+                    boxShadow: "0 4px 16px rgba(196,149,42,0.2)"
+                  }}
+                >
+                  <Image
+                    src={resolveMediaUrl(portraits[1].url)}
+                    alt="Behind the lens"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="70px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 opacity-50" />
+                </div>
+              )}
+
+              {/* Portrait 3 - Compact square frame */}
+              {portraits[2] && (
+                <div
+                  className="hidden sm:block relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[2deg] hover:rotate-0 transition-all duration-500"
+                  style={{
+                    width: "clamp(42px, 5vw, 58px)",
+                    height: "clamp(58px, 7vw, 80px)",
+                    border: "1.5px solid rgba(196,149,42,0.3)",
+                    boxShadow: "0 3px 12px rgba(196,149,42,0.15)"
+                  }}
+                >
+                  <Image
+                    src={resolveMediaUrl(portraits[2].url)}
+                    alt="Filmmaker at work"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="60px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tl from-black/20 via-transparent to-transparent opacity-40" />
+                </div>
+              )}
+            </motion.div>
           </div>
 
           {/* Gold rule */}
