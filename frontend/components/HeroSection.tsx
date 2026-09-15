@@ -3,9 +3,145 @@
 // Clean 2-column grid. Name stacks tight. More gold. Role tags below name.
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { getPortraits, resolveMediaUrl, type Portrait } from "@/lib/api";
+
+// ── Interactive Ambient Vectors ───────────────────────────────────────────────
+function InteractiveVectors() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouse = useRef({ x: 0, y: 0, clicked: false });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let particles: {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      baseX: number;
+      baseY: number;
+    }[] = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+
+    const initParticles = () => {
+      particles = [];
+      const particleCount = window.innerWidth < 768 ? 40 : 80;
+      for (let i = 0; i < particleCount; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        particles.push({
+          x,
+          y,
+          baseX: x,
+          baseY: y,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          size: Math.random() * 2 + 0.5,
+        });
+      }
+    };
+
+    window.addEventListener("resize", resize);
+    window.addEventListener("mousemove", (e) => {
+      mouse.current.x = e.clientX;
+      mouse.current.y = e.clientY;
+    });
+    window.addEventListener("mousedown", () => {
+      mouse.current.clicked = true;
+    });
+    window.addEventListener("mouseup", () => {
+      mouse.current.clicked = false;
+    });
+
+    // Initial setup
+    resize();
+
+    let animationFrame: number;
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const interactionRadius = mouse.current.clicked ? 250 : 120;
+      const repelForce = mouse.current.clicked ? 3 : 1;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        // Normal drifting motion
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Mouse interaction
+        const dx = mouse.current.x - p.x;
+        const dy = mouse.current.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < interactionRadius) {
+          const forceDirectionX = dx / dist;
+          const forceDirectionY = dy / dist;
+          const force = (interactionRadius - dist) / interactionRadius;
+
+          // Push particles away
+          p.x -= forceDirectionX * force * repelForce * 2;
+          p.y -= forceDirectionY * force * repelForce * 2;
+        }
+
+        // Return slowly to base positions or stay in bounds
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(196, 149, 42, ${mouse.current.clicked ? 0.4 : 0.15})`;
+        ctx.fill();
+
+        // Connect nearby particles
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dpX = p.x - p2.x;
+          const dpY = p.y - p2.y;
+          const distP = Math.sqrt(dpX * dpX + dpY * dpY);
+
+          if (distP < 100) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(196, 149, 42, ${(100 - distP) * 0.002})`;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 pointer-events-none z-0"
+      style={{ opacity: 0.8 }}
+    />
+  );
+}
 
 function PhotoSlot({ portrait, label, delay }: { portrait?: Portrait; label: string; delay: number }) {
   if (!portrait) return null;
@@ -48,6 +184,9 @@ export default function HeroSection() {
   return (
     <section className="relative w-full min-h-screen flex flex-col overflow-hidden"
       style={{ background: "linear-gradient(155deg, #F9F6F0 0%, #F3EDE0 50%, #EDE6D5 100%)" }}>
+
+      {/* ── Interactive Vectors ── */}
+      <InteractiveVectors />
 
       {/* ── Strong gold ambient: right side glow ── */}
       <div className="absolute top-0 right-0 w-[50%] h-full pointer-events-none"
@@ -107,22 +246,22 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* ── Multi-Photo Aesthetic Collage next to name ── */}
+            {/* ── Multi-Photo Aesthetic Collage (4-5 Frames) ── */}
             <motion.div
-              className="flex items-center gap-2 self-start lg:self-center mt-2 lg:mt-0 lg:ml-4"
+              className="flex items-center gap-1.5 sm:gap-2 self-start lg:self-center mt-3 lg:mt-0 lg:ml-5 flex-wrap sm:flex-nowrap"
               initial={{ opacity: 0, scale: 0.92, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 0.9, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Portrait 1 - Tallest editorial frame */}
+              {/* Frame 1 - Tall Main Editorial */}
               {portraits[0] && (
                 <div
-                  className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg"
+                  className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:z-20 transition-all duration-300"
                   style={{
-                    width: "clamp(52px, 6vw, 70px)",
-                    height: "clamp(78px, 9vw, 105px)",
-                    border: "2px solid rgba(232,201,122,0.4)",
-                    boxShadow: "0 6px 20px rgba(196,149,42,0.25), 0 2px 8px rgba(0,0,0,0.15)"
+                    width: "clamp(55px, 6vw, 75px)",
+                    height: "clamp(80px, 9vw, 110px)",
+                    border: "2px solid rgba(232,201,122,0.45)",
+                    boxShadow: "0 6px 20px rgba(196,149,42,0.25)"
                   }}
                 >
                   <Image
@@ -133,17 +272,17 @@ export default function HeroSection() {
                     sizes="80px"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
                 </div>
               )}
 
-              {/* Portrait 2 - Medium Polaroid style, rotated */}
+              {/* Frame 2 - Slight negative tilt */}
               {portraits[1] && (
                 <div
-                  className="relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[-4deg] hover:rotate-0 transition-all duration-500"
+                  className="relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[-3deg] hover:rotate-0 hover:z-20 transition-all duration-300"
                   style={{
-                    width: "clamp(48px, 5.5vw, 64px)",
-                    height: "clamp(64px, 7.5vw, 88px)",
+                    width: "clamp(50px, 5.5vw, 68px)",
+                    height: "clamp(70px, 8vw, 95px)",
                     border: "1.5px solid rgba(232,201,122,0.35)",
                     boxShadow: "0 4px 16px rgba(196,149,42,0.2)"
                   }}
@@ -155,29 +294,73 @@ export default function HeroSection() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     sizes="70px"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 opacity-50" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/30 opacity-50" />
                 </div>
               )}
 
-              {/* Portrait 3 - Compact square frame */}
+              {/* Frame 3 - Slight positive tilt */}
               {portraits[2] && (
                 <div
-                  className="hidden sm:block relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[2deg] hover:rotate-0 transition-all duration-500"
+                  className="relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[3deg] hover:rotate-0 hover:z-20 transition-all duration-300"
                   style={{
-                    width: "clamp(42px, 5vw, 58px)",
-                    height: "clamp(58px, 7vw, 80px)",
-                    border: "1.5px solid rgba(196,149,42,0.3)",
-                    boxShadow: "0 3px 12px rgba(196,149,42,0.15)"
+                    width: "clamp(46px, 5vw, 62px)",
+                    height: "clamp(64px, 7.5vw, 88px)",
+                    border: "1.5px solid rgba(232,201,122,0.35)",
+                    boxShadow: "0 4px 14px rgba(196,149,42,0.18)"
                   }}
                 >
                   <Image
                     src={resolveMediaUrl(portraits[2].url)}
-                    alt="Filmmaker at work"
+                    alt="Directing"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="65px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tl from-black/30 via-transparent to-transparent opacity-40" />
+                </div>
+              )}
+
+              {/* Frame 4 - Compact Polaroid */}
+              {(portraits[3] || portraits[0]) && (
+                <div
+                  className="hidden sm:block relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[-2deg] hover:rotate-0 hover:z-20 transition-all duration-300"
+                  style={{
+                    width: "clamp(42px, 4.5vw, 56px)",
+                    height: "clamp(58px, 6.8vw, 78px)",
+                    border: "1.5px solid rgba(232,201,122,0.3)",
+                    boxShadow: "0 3px 12px rgba(196,149,42,0.15)"
+                  }}
+                >
+                  <Image
+                    src={resolveMediaUrl(portraits[3]?.url || portraits[0].url)}
+                    alt="Cinematographer"
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     sizes="60px"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-tl from-black/20 via-transparent to-transparent opacity-40" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-40" />
+                </div>
+              )}
+
+              {/* Frame 5 - Accent Mini Card */}
+              {(portraits[4] || portraits[1]) && (
+                <div
+                  className="hidden md:block relative group cursor-pointer overflow-hidden rounded-md shadow-md rotate-[4deg] hover:rotate-0 hover:z-20 transition-all duration-300"
+                  style={{
+                    width: "clamp(38px, 4vw, 50px)",
+                    height: "clamp(52px, 6vw, 70px)",
+                    border: "1.5px solid rgba(232,201,122,0.25)",
+                    boxShadow: "0 3px 10px rgba(196,149,42,0.12)"
+                  }}
+                >
+                  <Image
+                    src={resolveMediaUrl(portraits[4]?.url || portraits[1]?.url || portraits[0].url)}
+                    alt="On set"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="50px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40 opacity-40" />
                 </div>
               )}
             </motion.div>

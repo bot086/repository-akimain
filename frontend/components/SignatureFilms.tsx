@@ -416,7 +416,7 @@ export default function SignatureFilms() {
       .catch(() => {});
   }, []);
 
-  // Auto-scroll animation for Reels
+  // Auto-scroll animation for Reels - stops on user interaction
   useEffect(() => {
     const track = reelTrackRef.current;
     if (!track) return;
@@ -427,8 +427,23 @@ export default function SignatureFilms() {
 
     if (totalWidth === 0) return;
 
+    let userHasInteracted = false;
+
+    const handleInteraction = () => {
+      userHasInteracted = true;
+      reelPaused.current = true;
+    };
+
+    // Listen for user scroll/touch/click on the container
+    const container = track.parentElement;
+    if (container) {
+      container.addEventListener('wheel', handleInteraction, { passive: true });
+      container.addEventListener('touchstart', handleInteraction, { passive: true });
+      container.addEventListener('mousedown', handleInteraction);
+    }
+
     const animate = () => {
-      if (!reelPaused.current) {
+      if (!reelPaused.current && !userHasInteracted) {
         reelScrollX.current += SPEED;
         // Seamless loop: when scrolled one full set, jump back
         if (reelScrollX.current >= totalWidth) {
@@ -442,7 +457,15 @@ export default function SignatureFilms() {
     };
 
     reelAnimRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(reelAnimRef.current);
+
+    return () => {
+      cancelAnimationFrame(reelAnimRef.current);
+      if (container) {
+        container.removeEventListener('wheel', handleInteraction);
+        container.removeEventListener('touchstart', handleInteraction);
+        container.removeEventListener('mousedown', handleInteraction);
+      }
+    };
   }, [reels]);
 
   const reelLabels = ["Reel 01", "Reel 02", "Reel 03", "Reel 04", "Reel 05", "Reel 06", "Reel 07", "Reel 08"];
@@ -495,17 +518,26 @@ export default function SignatureFilms() {
           <div className="flex-1 h-px bg-gold/15" />
         </div>
         <div
-          className="relative overflow-hidden pb-3"
+          className="relative overflow-x-auto pb-3 scrollbar-none"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+          }}
           onMouseEnter={() => { reelPaused.current = true; }}
-          onMouseLeave={() => { reelPaused.current = false; }}
+          onMouseLeave={() => {
+            // Only resume if user hasn't scrolled manually
+            if (!reelTrackRef.current?.parentElement?.scrollLeft) {
+              reelPaused.current = false;
+            }
+          }}
         >
-          {/* Auto-scrolling track */}
+          {/* Auto-scrolling / manually scrollable track */}
           <div
             ref={reelTrackRef}
             className="flex gap-3 will-change-transform"
             style={{
               width: "max-content",
-              transform: "translateX(0px)",
             }}
           >
             {tripledReels.map((media, i) => (
@@ -515,13 +547,13 @@ export default function SignatureFilms() {
             ))}
           </div>
 
-          {/* Left + right fade vignette for seamless infinite look */}
+          {/* Left + right fade vignette for seamless look */}
           <div
-            className="absolute inset-y-0 left-0 w-20 pointer-events-none z-10"
+            className="absolute inset-y-0 left-0 w-16 pointer-events-none z-10"
             style={{ background: "linear-gradient(90deg, rgba(249,246,240,1) 0%, transparent 100%)" }}
           />
           <div
-            className="absolute inset-y-0 right-0 w-20 pointer-events-none z-10"
+            className="absolute inset-y-0 right-0 w-16 pointer-events-none z-10"
             style={{ background: "linear-gradient(270deg, rgba(249,246,240,1) 0%, transparent 100%)" }}
           />
         </div>
