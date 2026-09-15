@@ -146,17 +146,31 @@ export default function ContactSection({ contact }: Props) {
           {/* Gold rule */}
           <div className="gold-rule opacity-20 mb-10" />
 
-          {/* Footer */}
-          <div className="flex justify-between items-center">
-            <div>
-              <span className="font-serif italic text-gold text-xl block mb-0.5">AV</span>
-              <p className="font-mono text-[9px] tracking-widest text-ink-faint uppercase">
-                Akshay Vastrad Media House
-              </p>
+          {/* Footer - Copyright block */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left mt-16 pt-8 border-t border-gold/10">
+            <div className="flex items-center gap-4">
+              <span className="font-serif italic text-gold text-2xl">Akkira</span>
+              <div className="w-px h-6 bg-gold/30"></div>
+              <div>
+                <p className="font-sans text-[10px] tracking-widest text-[#EDE8DF] uppercase mb-1">
+                  Akshay Vastrad Media House
+                </p>
+                <p className="font-mono text-[8.5px] tracking-[0.2em] text-[#7A746E] uppercase">
+                  Cinematic Wedding Films & Photography
+                </p>
+              </div>
             </div>
-            <p className="font-mono text-[9px] tracking-widest text-ink-faint uppercase">
-              © {new Date().getFullYear()}
-            </p>
+
+            <div className="flex flex-col items-center md:items-end">
+              <p className="font-mono text-[9px] tracking-widest text-[#cfc7b4] uppercase mb-1.5">
+                © {new Date().getFullYear()} AKKIRA FILMMAKER. ALL RIGHTS RESERVED.
+              </p>
+              <div className="flex gap-4">
+                <a href="#" className="font-sans text-[9px] tracking-wider text-[#7A746E] hover:text-gold transition-colors">PRIVACY POLICY</a>
+                <span className="text-[#7A746E]/50 text-[9px]">•</span>
+                <a href="#" className="font-sans text-[9px] tracking-wider text-[#7A746E] hover:text-gold transition-colors">TERMS OF SERVICE</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
